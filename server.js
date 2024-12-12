@@ -96,16 +96,18 @@ app.post('/api/conversa', async (req, res) => {
                 const apiResponse = await functions[call.name](call.args);
 
                 // Envia a resposta da função de volta ao modelo Gemini
-                const result2 = await chat.sendMessage([{
+                const callResult = await chat.sendMessageStream([{
                     functionResponse: {
                         name: call.name,
                         response: apiResponse
                     }
                 }]);
-
-                // Envia a resposta final para o cliente
-                const text = await result2.response.text()
-                console.log(text)
+                let text = ""
+                for await (const chunk of callResult.stream) {
+                    const chunkText = chunk.text();
+                    process.stdout.write(chunkText);
+                    text += chunkText;
+                }
                 res.json({ resposta: text});
             } else {
                 // Caso a função chamada não esteja definida
