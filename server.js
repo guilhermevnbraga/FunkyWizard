@@ -9,7 +9,6 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
 async function searchGoogle(query) {
     const apiKey = process.env.SEARCH_API_KEY;
     const cx = process.env.SEARCH_ENGINE_ID;
@@ -94,6 +93,11 @@ app.post('/api/conversa', async (req, res) => {
             if (functions.hasOwnProperty(call.name)) {
                 // Executa a função chamada com os argumentos fornecidos
                 const apiResponse = await functions[call.name](call.args);
+                console.log("Fazendo uma busca no goolge")
+
+                res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+                res.setHeader('Transfer-Encoding', 'chunked');
+                res.setHeader('Cache-Control', 'no-cache');
 
                 // Envia a resposta da função de volta ao modelo Gemini
                 const callResult = await chat.sendMessageStream([{
@@ -102,13 +106,13 @@ app.post('/api/conversa', async (req, res) => {
                         response: apiResponse
                     }
                 }]);
-                let text = ""
+
                 for await (const chunk of callResult.stream) {
                     const chunkText = chunk.text();
                     process.stdout.write(chunkText);
-                    text += chunkText;
+                    res.write(chunkText);
                 }
-                res.json({ resposta: text});
+                res.end();
             } else {
                 // Caso a função chamada não esteja definida
                 console.error(`Função "${call.name}" não está definida.`);
