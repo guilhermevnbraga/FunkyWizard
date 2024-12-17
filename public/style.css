@@ -1,71 +1,89 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+header {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  .container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .chat-box {
-    height: 300px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    overflow-y: scroll;
-    margin-bottom: 10px;
-    background-color: #fafafa;
-  }
-  
-  .mensagem {
-    margin-bottom: 10px;
-  }
-  
-  .mensagem.usuario {
-    text-align: right;
-    color: blue;
-  }
-  
-  .mensagem.gemini {
-    text-align: left;
-    color: green;
-  }
-  
-  form {
+    padding-top: 8px;
+}
+
+#user-nav {
     display: flex;
-  }
-  
-  input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px 0 0 4px;
-    outline: none;
-  }
-  
-  button {
-    padding: 10px;
-    border: none;
-    background-color: #28a745;
-    color: #fff;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #218838;
-  }
-  
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+#chat-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px;
+}
+
+main {
+  display: flex;
+  flex-grow: 1;
+  border-radius: 1%;
+  background-color: #F7F7F7;
+  font-size: 1.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+footer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+footer > form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  height: 100%;
+}
+
+footer > form > button {
+  border: none;
+  background-color: transparent;
+}
+
+footer > form > input {
+  border: none;
+  display: flex;
+  flex-grow: 1;
+  font-size: 1.2rem;
+  background-color: #E5E5E5;
+  padding: 16px;
+  border-radius: 9px;
+}
+
+.mensagem {
+  margin-bottom: 10px;
+}
+
+.mensagem.usuario {
+  text-align: right;
+  color: blue;
+}
+
+.mensagem.gemini {
+  text-align: left;
+  color: green;
+}

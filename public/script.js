@@ -1,9 +1,17 @@
 const chatForm = document.getElementById('chat-form');
 const chatBox = document.getElementById('chat-box');
 const mensagemInput = document.getElementById('mensagem');
+const welcomeBox = document.getElementById('welcome-box');
 
 chatForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  console.log('a')
+
+  if (welcomeBox) {
+    welcomeBox.remove();
+  }
+
   const mensagem = mensagemInput.value.trim();
   if (!mensagem) return;
 
