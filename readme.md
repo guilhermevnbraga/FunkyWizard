@@ -15,45 +15,10 @@ FunkyWizard é uma aplicação desenvolvida para facilitar a vida dos programado
 
 ## Colaboradores
 
-<p align="center">
-  <div href="https://github.com/guilhermevnbraga" style="text-decoration: none; color: inherit;
-  display: inline-block; text-align: center; margin: 10px;">
-      <p><strong>Front-End</strong></p>
-        <a href="https://github.com/guilhermevnbraga">
-          <img src="https://avatars.githubusercontent.com/u/89932943?v=4" width="100" />
-        </a>
-      <p><strong>Guilherme Braga</strong></p>
-  </div>
-  <div href="https://github.com/Gust4voSSM" style="text-decoration: none; color: inherit;
-  display: inline-block; text-align: center; margin: 10px;">
-      <p><strong>Back-End</strong></p>
-        <a href="https://github.com/Gust4voSSM">
-          <img src="https://avatars.githubusercontent.com/u/110403830?v=4" width="100" />
-        </a>
-      <p><strong>Gustavo Santiago</strong></p>
-  </div>
-  <div href="https://github.com/danilobarrote" style="text-decoration: none; color: inherit;
-  display: inline-block; text-align: center; margin: 10px;">
-      <p><strong>Back-End</strong></p>
-        <a href="https://github.com/danilobarrote">
-          <img src="https://avatars.githubusercontent.com/u/175836607?v=4" width="100" />
-        </a>
-      <p><strong>Danilo Barronte</strong></p>
-  </div>
-  <div href="https://github.com/Guilhermejose749" style="text-decoration: none; color: inherit;
-  display: inline-block; text-align: center; margin: 10px;">
-      <p><strong>Designer</strong></p>
-        <a href="https://github.com/Guilhermejose749">
-          <img src="https://avatars.githubusercontent.com/u/175838250?v=4" width="100" />
-        </a>
-      <p><strong>Guilherme José</strong></p>
-  </div>
-</p>
-
 | Front-End | Back-End | Back-End | Designer |
 |-----------|----------|----------|----------|
-| [![Guilherme Braga](https://avatars.githubusercontent.com/u/89932943?v=4)](https://github.com/guilhermevnbraga) | [![Gustavo](https://avatars.githubusercontent.com/u/110403830?v=4)](https://github.com/Gust4voSSM) | [![Danilo Barronte](https://avatars.githubusercontent.com/u/175836607?v=4)](https://github.com/danilobarrote) | [![Guilherme José](https://avatars.githubusercontent.com/u/175838250?v=4)](https://github.com/Guilhermejose749)  
-**Guilherme Braga** | Gustavo Santiago | Danilo Barronte | Guilherme José
+| [![Guilherme Braga](https://avatars.githubusercontent.com/u/89932943?v=4)](https://github.com/guilhermevnbraga) | [![Gustavo](https://avatars.githubusercontent.com/u/110403830?v=4)](https://github.com/Gust4voSSM) | [![Danilo Barronte](https://avatars.githubusercontent.com/u/175836607?v=4)](https://github.com/danilobarrote) | [![Guilherme José](https://avatars.githubusercontent.com/u/175838250?v=4)](https://github.com/Guilhermejose749) |
+| **Guilherme Braga** | **Gustavo Santiago** | **Danilo Barronte** | **Guilherme José** |
 
 
 ## Tecnologias Utilizadas
