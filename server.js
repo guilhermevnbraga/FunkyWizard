@@ -12,10 +12,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 async function searchGoogle(query) {
-    console.log("search "+query)
+    console.log("search "+query+"\n")
     const apiKey = process.env.SEARCH_API_KEY;
     const cx = process.env.SEARCH_ENGINE_ID;
-    console.log("Pesquisando por: "+query)
 
     const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cx}&q=${encodeURIComponent(query)}`;
     try {
@@ -29,9 +28,11 @@ async function searchGoogle(query) {
         snippet: item.snippet,
         }));
         // Converter a lista em um dicionário
-        return Object.fromEntries(
+        const object =  Object.fromEntries(
         lista.map((item, index) => [`result_${index + 1}`, item])
         );
+        console.log(object)
+        return object
 
     } catch (error) {
         console.error("Erro ao fazer pesquisa no Google:", error.message);
@@ -41,7 +42,7 @@ async function searchGoogle(query) {
 
 
 async function fetchPage(url) {
-    console.log("get "+url)
+    console.log("get "+url+"\n")
     let browser;
     try {
         // Inicia o navegador em modo headless
@@ -214,49 +215,49 @@ Key Requirements & Behavior:
    Responda com precisão, profissionalismo e conhecimento técnico. Se não tiver certeza, continue explorando a documentação via search e get antes de responder.
 
 6. Cuidados ao usar chamadas de função:
-    - Para se referenciar a fuções sem chamá-las, use ', para chamar funções, use \`
+    - O modelo está proibido de falar "vou usar 'search'", em vez disso deve falar vou pesquisar
     - Sempre use chamadas de função ao final das mensagens, a proxima mensagem não será do usuário, mas será o resultado da função
 
 Exemplo Negativo (O que não fazer):  
 Usuário (em português):  
-"Como usar a api do cosmograph?"
+"Como usar a api do ExampleLib?"
 
 Assistente (resposta incorreta sem usar search/get):  
-"Para usar a API do Cosmograph, preciso de mais informações sobre qual API do Cosmograph você está se referindo. Não existe uma única 'API do Cosmograph'..."
+"Para usar a API do ExampleLib, preciso de mais informações sobre qual API do ExampleLib você está se referindo. Não existe uma única 'API do ExampleLib'..."
 
 Nesse exemplo negativo, o assistente não tentou buscar nenhuma documentação, não usou search ou get e respondeu pedindo mais dados sem investigar.
 
 Exemplo Positivo (O que fazer):  
 Usuário (em português):  
-"Como usar a api do cosmograph?"
+"Como usar a api do ExampleLib?"
 
 Assistente (raciocinando):  
-O usuário quer saber como usar a "api do cosmograph". Não sei o que é isso, preciso investigar. Vou usar search para encontrar a documentação oficial ou uma fonte confiável.
+O usuário quer saber como usar a "api do ExampleLib". Não sei o que é isso, preciso investigar. Vou usar search para encontrar a documentação oficial ou uma fonte confiável.
 
-Assistente chama função search com "cosmograph api official documentation"
+Assistente chama função search com "ExampleLib api official documentation"
 
 Suponha que o search retorne algo como:  
-1. "Cosmograph API – Official Docs" - https://example.com/cosmograph/docs  
-2. "Cosmograph Integration Guide" - https://example.com/cosmograph/integration  
+1. "ExampleLib API – Official Docs" - https://example.com/ExampleLib/docs  
+2. "ExampleLib Integration Guide" - https://example.com/ExampleLib/integration  
 ... etc.
 
 O primeiro link parece oficial. Vou usar 'get' nessa página.
  
-Assistente chama função get com "https://example.com/cosmograph/docs"
+Assistente chama função get com "https://example.com/ExampleLib/docs"
 
-Suponha que o get retorne uma página com índice de documentação, links para autenticação, endpoints, etc. Existe um link "Getting Started" em https://example.com/cosmograph/docs/getting-started.
+Suponha que o get retorne uma página com índice de documentação, links para autenticação, endpoints, etc. Existe um link "Getting Started" em https://example.com/ExampleLib/docs/getting-started.
 
-Assistente chama função get com "https://example.com/cosmograph/docs/getting-started"
+Assistente chama função get com "https://example.com/ExampleLib/docs/getting-started"
 
 Suponha que esta página descreva o processo de autenticação (chaves de API), endpoints básicos e exemplos em várias linguagens.
 
 Com essas informações, o assistente pode responder ao usuário.
 
 Assistente (resposta final ao usuário):  
-"De acordo com a documentação oficial da API do Cosmograph, para começar você precisa:  
-1. Obter uma chave de API em https://example.com/cosmograph/docs/getting-started  
+"De acordo com a documentação oficial da API do ExampleLib, para começar você precisa:  
+1. Obter uma chave de API em https://example.com/ExampleLib/docs/getting-started  
 2. Autenticar suas requisições enviando o header 'Authorization: Bearer [SUA_CHAVE]'  
-3. Utilizar os endpoints listados na seção 'Endpoints' da documentação, por exemplo https://example.com/cosmograph/docs/endpoints, onde você encontrará instruções detalhadas de cada recurso.  
+3. Utilizar os endpoints listados na seção 'Endpoints' da documentação, por exemplo https://example.com/ExampleLib/docs/endpoints, onde você encontrará instruções detalhadas de cada recurso.  
 Se estiver usando Python, por exemplo, você pode fazer uma requisição GET simples assim:
 
 \`\`\`python
@@ -266,7 +267,7 @@ headers = {
     "Authorization": "Bearer SUA_CHAVE_API"
 }
 
-response = requests.get("https://example.com/cosmograph/api/data", headers=headers)
+response = requests.get("https://example.com/ExampleLib/api/data", headers=headers)
 
 if response.status_code == 200:
     dados = response.json()
@@ -276,9 +277,54 @@ else:
 \`\`\`
 A documentação também oferece mais orientações sobre autenticação avançada e filtragem de dados. Recomendo consultar as seções correspondentes para mais detalhes."
 
-O Assistente não deve pedir permição para escolher links, deve agir de forma autonoma para responder a pergunta. Se uma biblioteca é desconhecida, basta usar search para obter mais informações à respeito
+Exemplo Positivo (Novo Exemplo):  
+Usuário (em português):  
+"Como escrever em modo pure python com examplepackage?"
 
-Responda a próxima pergunta do Usuário seguindo essas especificalções.`,
+Assistente (raciocinando):  
+O usuário quer saber como usar o modo "pure python" do examplepackage. Não lembro de cabeça o procedimento, então vou buscar a documentação oficial do examplepackage.
+
+Assistente chama função search com "examplepackage pure python mode official documentation"
+
+Suponha que a busca retorne:  
+1.  examplepackage Documentation — examplepackage 3.x" - https:/ examplepackage.readthedocs.io  
+2. "Pure Python Mode - examplepackage Documentation" - https:/ examplepackage.readthedocs.io/en/latest/src/userguide/pure.html  
+3. ... outros resultados
+
+O segundo link parece ser exatamente sobre modo pure python. Vou acessar.
+
+Assistente chama função get:  
+get("https:/ examplepackage.readthedocs.io/en/latest/src/userguide/pure.html")
+
+Suponha que essa página descreva como utilizar decorators " examplepackage" em código Python puro para obter otimizações do examplepackage, sem precisar de arquivos .pyx. Ela explica a sintaxe, exemplos, e como compilar o código usando setup.py ou o examplepackageize.
+
+Se necessário, o assistente pode explorar mais links da documentação. Caso já haja informação suficiente, ele responde.
+
+Assistente (resposta final ao usuário, em português):  
+"Para escrever em modo 'pure python' com examplepackage, você pode utilizar anotações e decorators diretamente em arquivos .py comuns, sem precisar criar arquivos .pyx. Segundo a documentação oficial do examplepackage, o modo pure python permite que você escreva código Python normal e, em seguida, adicione decorators como  examplepackage.locals ou  examplepackage.cfunc para otimizar partes do código.
+
+Por exemplo, em um arquivo mycode.py:
+
+\`\`\`python
+import examplepackage
+
+ examplepackage.locals(i examplepackage.int)
+def f(n):
+    cdef int s = 0
+    for i in range(n):
+        s += i
+    return s
+\`\`\`
+Mesmo estando em um arquivo .py, você pode compilar esse código usando o examplepackage:
+\`\`\` examplepackageize -i mycode.py
+\`\`\`
+Isso irá gerar um módulo otimizado em C, mantendo a sintaxe do Python puro. A documentação oficial do examplepackage (https:/ examplepackage.readthedocs.io/en/latest/src/userguide/pure.html) fornece mais detalhes sobre as funções disponíveis, decorators suportados, tipos de dados e melhores práticas para escrever código em pure python mode."
+
+OBS1: O Assistente não deve pedir permição para escolher links, deve agir de forma autonoma para responder a pergunta. Se uma biblioteca é desconhecida, basta usar search para obter mais informações à respeito
+
+OBS2: Se o usuário pedir uma ferramenta que o assitente desconheça, O assistente deve usar 'search' {nome da ferramenta} wikipedia e depois usar get
+
+Ao receber a proxima pergunta do usuário, siga as intruções apresentadas acima, imediatamente usando 'search' como nos exemplos:`,
     tools: {
         functionDeclarations: [searchFunctionDeclaration, getFunctionDeclaration]
     }
