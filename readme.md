@@ -20,9 +20,6 @@ FunkyWizard é uma aplicação desenvolvida para facilitar a vida dos programado
 | [![Guilherme Braga](https://avatars.githubusercontent.com/u/89932943?v=4)](https://github.com/guilhermevnbraga) | [![Gustavo](https://avatars.githubusercontent.com/u/110403830?v=4)](https://github.com/Gust4voSSM) | [![Danilo Barronte](https://avatars.githubusercontent.com/u/175836607?v=4)](https://github.com/danilobarrote) | [![Guilherme José](https://avatars.githubusercontent.com/u/175838250?v=4)](https://github.com/Guilhermejose749) |
 |    **Guilherme Braga**    |    **Gustavo Santiago**    |    **Danilo Barronte**    |    **Guilherme José**    |
 
-
-
-
 ## Tecnologias Utilizadas
 
 -   **Node.js** com **Express** para o backend
@@ -33,16 +30,12 @@ FunkyWizard é uma aplicação desenvolvida para facilitar a vida dos programado
 -   **Axios** e **JSDOM** para manipulação de dados e integração de APIs
 -   **dotenv** para gerenciamento de variáveis de ambiente
 
----
-
 ## Estrutura do Projeto
 
 -   **`server.js`**: Contém a lógica principal da aplicação, incluindo integração com IA, scraping e endpoints REST.
 -   **`public/`**: Diretório com arquivos estáticos, como `index.html`, `script.js` e `style.css`.
 -   **`.env`**: Armazena chaves sensíveis, como credenciais da API do Google e Gemini.
 -   **`vercel.json`**: Configuração para deploy da aplicação na Vercel.
-
----
 
 ## Funcionalidades
 
