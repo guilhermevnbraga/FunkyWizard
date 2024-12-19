@@ -50,6 +50,15 @@ FunkyWizard é uma aplicação desenvolvida para facilitar a vida dos programado
   </div>
 </p>
 
+| Front-End | Back-End | Back-End | Designer |
+|-----------|----------|----------|----------|
+| [![Guilherme Braga](https://avatars.githubusercontent.com/u/89932943?v=4)](https://github.com/guilhermevnbraga)  
+**Guilherme Braga** | [![Gustavo](https://avatars.githubusercontent.com/u/110403830?v=4)](https://github.com/Gust4voSSM)  
+**Gustavo** | [![Danilo Barronte](https://avatars.githubusercontent.com/u/175836607?v=4)](https://github.com/danilobarrote)  
+**Danilo Barronte** | [![Guilherme José](https://avatars.githubusercontent.com/u/175838250?v=4)](https://github.com/Guilhermejose749)  
+**Guilherme José** |
+
+
 ## Tecnologias Utilizadas
 
 -   **Node.js** com **Express** para o backend
