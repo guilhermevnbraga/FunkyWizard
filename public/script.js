@@ -6,10 +6,9 @@ const welcomeBox = document.getElementById('welcome-box');
 chatForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  console.log('a')
-
   if (welcomeBox) {
     welcomeBox.remove();
+    chatBox.style.display = 'block';
   }
 
   const mensagem = mensagemInput.value.trim();

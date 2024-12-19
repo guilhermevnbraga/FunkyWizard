@@ -104,5 +104,7 @@ footer > form > input {
 }
 
 #chat-box {
+  display: none;
   padding: 6px;
+  width: 100%;
 }
