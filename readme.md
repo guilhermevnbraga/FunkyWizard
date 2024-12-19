@@ -73,9 +73,9 @@ A aplicação está hospedada na vercel: [FunkyWizard](https://funky-wizard.verc
 
 1. Clone o repositório:
 
-    ```bash
-    git clone https://github.com/guilhermevnbraga/FunkyWizard.git
-    ```
+```bash
+  git clone https://github.com/guilhermevnbraga/FunkyWizard.git
+```
 
 2. Acesse o diretório do projeto:
 
