@@ -4,6 +4,7 @@ const express = require('express');
 const path = require('path');
 const axios = require("axios");
 const { JSDOM } = require("jsdom");
+const puppeteer = require('puppeteer');
 
 require('dotenv').config();
 
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 3000;
 async function searchGoogle(query) {
     const apiKey = process.env.SEARCH_API_KEY;
     const cx = process.env.SEARCH_ENGINE_ID;
+    console.log("Pesquisando por: "+query)
 
     const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cx}&q=${encodeURIComponent(query)}`;
     try {
@@ -36,78 +38,107 @@ async function searchGoogle(query) {
     }
 }
 
+
 async function fetchPage(url) {
+    let browser;
     try {
+        // Inicia o navegador em modo headless
+        browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
 
-        const response = await axios.get(url)
-        const html = response.data
-        const dom = new JSDOM(html);
-        const document = dom.window.document;
+        // Define um tempo máximo para aguardar o carregamento completo da página
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
 
-        // Array to hold the extracted elements
-        const extractedElements = [];
+        // Extrai os elementos desejados na ordem de aparecimento
+        const elements = await page.evaluate(() => {
+            const extractedElements = [];
+            const baseURI = document.baseURI; // Obtém o URL base da página
 
-        /**
-         * Recursively traverse the DOM and extract desired elements.
-         *
-         * @param {Node} node - The current DOM node.
-         */
-        function traverse(node) {
-            // Ignore script and style tags
-            if (node.nodeType === dom.window.Node.ELEMENT_NODE) {
-                const tagName = node.tagName.toLowerCase();
-                if (tagName === 'script' || tagName === 'style') {
-                    return;
+            /**
+             * Função para percorrer recursivamente os nós DOM e extrair os elementos desejados.
+             *
+             * @param {Node} node - O nó DOM atual.
+             */
+            function traverse(node) {
+                // Ignora scripts, estilos e noscript
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    const tagName = node.tagName.toLowerCase();
+                    if (tagName === 'script' || tagName === 'style' || tagName === 'noscript') {
+                        return;
+                    }
+
+                    // Headers (h1 - h6)
+                    if (/^h[1-6]$/.test(tagName)) {
+                        extractedElements.push({
+                            type: 'header',
+                            level: tagName,
+                            text: node.textContent.trim(),
+                        });
+                    }
+
+                    // Links (<a>)
+                    if (tagName === 'a') {
+                        const href = node.getAttribute('href');
+                        let absoluteHref = href;
+                        try {
+                            absoluteHref = new URL(href, baseURI).href;
+                        } catch (e) {
+                            // Se a URL for inválida, mantém o valor original
+                            absoluteHref = href;
+                        }
+                        extractedElements.push({
+                            type: 'link',
+                            href: absoluteHref,
+                            text: node.textContent.trim(),
+                        });
+                    }
+
+                    // Imagens (<img>)
+                    if (tagName === 'img') {
+                        const src = node.getAttribute('src');
+                        let absoluteSrc = src;
+                        try {
+                            absoluteSrc = new URL(src, baseURI).href;
+                        } catch (e) {
+                            // Se a URL for inválida, mantém o valor original
+                            absoluteSrc = src;
+                        }
+                        extractedElements.push({
+                            type: 'image',
+                            src: absoluteSrc,
+                            alt: node.getAttribute('alt') || '',
+                        });
+                    }
                 }
 
-                // Check for headers (h1 - h6)
-                if (/^h[1-6]$/.test(tagName)) {
-                    extractedElements.push({
-                        type: 'header',
-                        level: tagName,
-                        text: node.textContent.trim(),
-                    });
+                // Nós de texto
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const text = node.textContent.trim();
+                    if (text) { // Ignora textos vazios ou apenas com espaços
+                        extractedElements.push({
+                            type: 'text',
+                            content: text,
+                        });
+                    }
                 }
 
-                // Check for links
-                if (tagName === 'a') {
-                    extractedElements.push({
-                        type: 'link',
-                        href: node.getAttribute('href'),
-                        text: node.textContent.trim(),
-                    });
-                }
-
-                // Check for images
-                if (tagName === 'img') {
-                    extractedElements.push({
-                        type: 'image',
-                        src: node.getAttribute('src'),
-                        alt: node.getAttribute('alt') || '',
-                    });
-                }
+                // Percorre os filhos do nó atual
+                node.childNodes.forEach(child => traverse(child));
             }
 
-            // Check for text nodes
-            if (node.nodeType === dom.window.Node.TEXT_NODE) {
-                const text = node.textContent.trim();
-                if (text) { // Ignore empty or whitespace-only text
-                    extractedElements.push({
-                        type: 'text',
-                        content: text,
-                    });
-                }
-            }
+            // Inicia a travessia a partir do corpo da página
+            traverse(document.body);
 
-            // Recursively traverse child nodes
-            node.childNodes.forEach(child => traverse(child));
-        }
+            return extractedElements;
+        });
 
-        // Start traversing from the body
-        traverse(document.body);
-        console.log(extractedElements)
-        return { elements: extractedElements };
+        await browser.close();
+
+        return { elements };
     } catch (error) {
+        if (browser) {
+            await browser.close();
+        }
         return { error: error.message };
     }
 }
@@ -177,6 +208,7 @@ const model = genAI.getGenerativeModel({
     }
 });
     
+    
 const chat = model.startChat();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -206,8 +238,8 @@ app.post('/api/conversa', async (req, res) => {
             // Verifica se a função chamada está definida
             if (functions.hasOwnProperty(call.name)) {
                 // Executa a função chamada com os argumentos fornecidos
-                const apiResponse = await functions[call.name](call.args);
                 console.log("Usando a função "+call.name)
+                const apiResponse = await functions[call.name](call.args);
                 
                 
                 // Envia a resposta da função de volta ao modelo Gemini
@@ -224,7 +256,6 @@ app.post('/api/conversa', async (req, res) => {
                 functionCalls = response.functionCalls();
                 
             } else {
-                // Caso a função chamada não esteja definida
                 console.error(`Função "${call.name}" não está definida.`);
                 res.status(500).json({ erro: `Função "${call.name}" não encontrada.` });
             }
@@ -237,7 +268,6 @@ app.post('/api/conversa', async (req, res) => {
         res.status(500).json({ erro: "Ocorreu um erro no processamento da sua solicitação." });
     }
 });
-
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
