@@ -1,8 +1,8 @@
 // const { GoogleGenerativeAI } = require("@google/generative-ai");
 // const express = require('express');
-// const path = require('path');
-// const { JSDOM } = require("jsdom");
-// const puppeteer = require('puppeteer');
+const path = require('path');
+const { JSDOM } = require("jsdom");
+const puppeteer = require('puppeteer');
 // const { Stream } = require('stream');
 // const { REPL_MODE_STRICT } = require('repl');
 // const app = express();
@@ -18,12 +18,8 @@ const client = new ModelClient(
     new AzureKeyCredential(process.env.AZURE_API_KEY)
 );
 
-async function main() {
-
-    let messages = [
-        { role: "system", content: "You are FunkyWizard, an assistent assigned to the task of providing technical information and code snippets based on reliable and updated documentation. You are able to call functions after thinking, by using the tags <tool> and </tool>, with the function and its paremeters lying between the tags. The sintax is function name folowed by the parameters separeted by space (no parenthesis). function calls should be answered alone, without any additional text. Currently, you have the following functions: - `search keyword1 keyword2 ... keywordn` : searchs google using the specified keywords, returns top 5 links. - `get url` : gets the parsed content of a page corresponding to `url`, should be used after getting the urls from system after calling `search`" },
-        { role: "user", content: "How to code using the new Python 4" }
-    ]
+async function sendMessage(messages) {
+    console.log(messages);
     const response = await client.path("/chat/completions").post({
         body: {
             messages: messages,
@@ -32,42 +28,61 @@ async function main() {
             stream: true
         }
     }).asNodeStream();
-    
+
     const stream = response.body;
     if (!stream) {
         throw new Error("The response stream is undefined");
     }
-    
     if (response.status !== "200") {
         stream.destroy();
-        throw new Error(`Failed to get chat completions, http operation failed with $ {response.status} code`);
+        throw new Error(`Failed to get chat completions, http operation failed with ${response.status} code`);
     }
-    
     const sseStream = createSseStream(stream);
-    
-    let context = {buffer: "", responses: []};
+    let answer = ""
+    let buffer = "", responses = [];
     for await (const event of sseStream) {
-        if (event.data === "[DONE]") {
-            break;
-        }
+        if (event.data == "[DONE]") break;
+
         for (const choice of (JSON.parse(event.data)).choices) {
-            content = choice.delta?.content ?? "";
-            context.buffer += content;
-            process.stdout.write(content);
-            context = await processBuffer(context);
-            
+            let chunk = choice.delta?.content ?? "";
+            answer += chunk
+            buffer += chunk;
+            process.stdout.write(chunk);
+            let context = await processBuffer({buffer, responses});
+            buffer = context.buffer;
+            responses = context.responses;
         }
     }
+    answer = answer.slice(answer.lastIndexOf("</think>") + "</think>".length)
+    messages.push({role: "assistant", content: answer});
+    if (responses.length > 0) {
+        messages.push({role: "user", content: responses.join("\n")});
+        sendMessage(messages);
+    }
+}
+
+async function main() {
+
+    let messages = [
+        { role: "system", content: "You are FunkyWizard, an assistent assigned to the task of providing technical information and code snippets based on reliable and updated documentation. You are able to call functions after thinking, by using the tags <tool> and </tool>, with the function and its paremeters lying between the tags. The sintax is function name folowed by the parameters separeted by space (no parenthesis). function calls should be answered alone, without any additional text. Currently, you have the following functions: - `search keyword1 keyword2 ... keywordn` : searchs google using the specified keywords, returns top 5 links. - `get url` : gets the parsed content of a page corresponding to `url`, should be used after getting the urls from system after calling `search`. Instructions: - If you get a question, dont think much. use search; - If you get links from search, use get; - keep using get until you are satisfyed" },
+        { role: "user", content: "How to code a simple graph using consmograph's API" }
+    ] 
+    await sendMessage(messages);
 }
 
 tools = {
     "search": searchGoogle,
-    "get": (url) => console.log("get " + url.join(" "))
+    "get": (urls) => fetchPage(urls[0]).then(result => JSON.stringify(result))
 }
+
+// tools["get"](["https://github.com/cosmograph-org/py_cosmograph"])
+//     .then(result => console.log(result))
+//     .catch(error => console.error(error));
 
 main().catch((err) => {
     console.error("The sample encountered an error:", err);
 });
+
 
 // <tool>search python 4</tool>
 // ["search", "python", "4"]
@@ -135,110 +150,110 @@ async function searchGoogle(args) {
 }
 
 
-// async function fetchPage(url) {
-//     console.log("get "+url+"\n")
-//     let browser;
-//     try {
-//         // Inicia o navegador em modo headless
-//         browser = await puppeteer.launch({ headless: true });
-//         const page = await browser.newPage();
+async function fetchPage(url) {
+    console.log("get "+url+"\n")
+    let browser;
+    try {
+        // Inicia o navegador em modo headless
+        browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
         
-//         // Define um tempo máximo para aguardar o carregamento completo da página
-//         await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+        // Define um tempo máximo para aguardar o carregamento completo da página
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
         
-//         // Extrai os elementos desejados na ordem de aparecimento
-//         const elements = await page.evaluate(() => {
-//             const extractedElements = [];
-//             const baseURI = document.baseURI; // Obtém o URL base da página
+        // Extrai os elementos desejados na ordem de aparecimento
+        const elements = await page.evaluate(() => {
+            const extractedElements = [];
+            const baseURI = document.baseURI; // Obtém o URL base da página
             
-//             /**
-//              * Função para percorrer recursivamente os nós DOM e extrair os elementos desejados.
-//             *
-//             * @param {Node} node - O nó DOM atual.
-//             */
-//            function traverse(node) {
-//                // Ignora scripts, estilos e noscript
-//                if (node.nodeType === Node.ELEMENT_NODE) {
-//                    const tagName = node.tagName.toLowerCase();
-//                    if (tagName === 'script' || tagName === 'style' || tagName === 'noscript') {
-//                        return;
-//                     }
+            /**
+             * Função para percorrer recursivamente os nós DOM e extrair os elementos desejados.
+            *
+            * @param {Node} node - O nó DOM atual.
+            */
+           function traverse(node) {
+               // Ignora scripts, estilos e noscript
+               if (node.nodeType === Node.ELEMENT_NODE) {
+                   const tagName = node.tagName.toLowerCase();
+                   if (tagName === 'script' || tagName === 'style' || tagName === 'noscript') {
+                       return;
+                    }
                     
-//                     // Headers (h1 - h6)
-//                     if (/^h[1-6]$/.test(tagName)) {
-//                         extractedElements.push({
-//                             type: 'header',
-//                             level: tagName,
-//                             text: node.textContent.trim(),
-//                         });
-//                     }
+                    // Headers (h1 - h6)
+                    if (/^h[1-6]$/.test(tagName)) {
+                        extractedElements.push({
+                            type: 'header',
+                            level: tagName,
+                            text: node.textContent.trim(),
+                        });
+                    }
                     
-//                     // Links (<a>)
-//                     if (tagName === 'a') {
-//                         const href = node.getAttribute('href');
-//                         let absoluteHref = href;
-//                         try {
-//                             absoluteHref = new URL(href, baseURI).href;
-//                         } catch (e) {
-//                             // Se a URL for inválida, mantém o valor original
-//                             absoluteHref = href;
-//                         }
-//                         extractedElements.push({
-//                             type: 'link',
-//                             href: absoluteHref,
-//                             text: node.textContent.trim(),
-//                         });
-//                     }
+                    // Links (<a>)
+                    if (tagName === 'a') {
+                        const href = node.getAttribute('href');
+                        let absoluteHref = href;
+                        try {
+                            absoluteHref = new URL(href, baseURI).href;
+                        } catch (e) {
+                            // Se a URL for inválida, mantém o valor original
+                            absoluteHref = href;
+                        }
+                        extractedElements.push({
+                            type: 'link',
+                            href: absoluteHref,
+                            text: node.textContent.trim(),
+                        });
+                    }
                     
-//                     // Imagens (<img>)
-//                     if (tagName === 'img') {
-//                         const src = node.getAttribute('src');
-//                         let absoluteSrc = src;
-//                         try {
-//                             absoluteSrc = new URL(src, baseURI).href;
-//                         } catch (e) {
-//                             // Se a URL for inválida, mantém o valor original
-//                             absoluteSrc = src;
-//                         }
-//                         extractedElements.push({
-//                             type: 'image',
-//                             src: absoluteSrc,
-//                             alt: node.getAttribute('alt') || '',
-//                         });
-//                     }
-//                 }
+                    // Imagens (<img>)
+                    if (tagName === 'img') {
+                        const src = node.getAttribute('src');
+                        let absoluteSrc = src;
+                        try {
+                            absoluteSrc = new URL(src, baseURI).href;
+                        } catch (e) {
+                            // Se a URL for inválida, mantém o valor original
+                            absoluteSrc = src;
+                        }
+                        // extractedElements.push({
+                        //     type: 'image',
+                        //     src: absoluteSrc,
+                        //     alt: node.getAttribute('alt') || '',
+                        // });
+                    }
+                }
                 
-//                 // Nós de texto
-//                 if (node.nodeType === Node.TEXT_NODE) {
-//                     const text = node.textContent.trim();
-//                     if (text) { // Ignora textos vazios ou apenas com espaços
-//                         extractedElements.push({
-//                             type: 'text',
-//                             content: text,
-//                         });
-//                     }
-//                 }
+                // Nós de texto
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const text = node.textContent.trim();
+                    if (text) { // Ignora textos vazios ou apenas com espaços
+                        extractedElements.push({
+                            type: 'text',
+                            content: text,
+                        });
+                    }
+                }
                 
-//                 // Percorre os filhos do nó atual
-//                 node.childNodes.forEach(child => traverse(child));
-//             }
+                // Percorre os filhos do nó atual
+                node.childNodes.forEach(child => traverse(child));
+            }
             
-//             // Inicia a travessia a partir do corpo da página
-//             traverse(document.body);
+            // Inicia a travessia a partir do corpo da página
+            traverse(document.body);
             
-//             return extractedElements;
-//         });
+            return extractedElements;
+        });
         
-//         await browser.close();
+        await browser.close();
         
-//         return { elements };
-//     } catch (error) {
-//         if (browser) {
-//             await browser.close();
-//         }
-//         return { error: error.message };
-//     }
-// }
+        return { elements };
+    } catch (error) {
+        if (browser) {
+            await browser.close();
+        }
+        return { error: error.message };
+    }
+}
 
 
 // const searchFunctionDeclaration = {
