@@ -16,7 +16,10 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsdom": "^25.0.1",
-    "puppeteer": "^23.11.1"
+    "puppeteer": "^23.11.1",
+    "@azure-rest/ai-inference": "latest",
+    "@azure/core-auth": "latest",
+    "@azure/core-sse": "latest"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
