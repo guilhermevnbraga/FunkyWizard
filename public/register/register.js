@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             alert(data.message);
-            window.location.href = '../chat/chat.html';
+            window.location.href = '../index.html';
         } catch (error) {
             console.error('Erro:', error);
             alert(error.message);
