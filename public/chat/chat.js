@@ -1,107 +1,163 @@
-const chatForm = document.getElementById('chat-form');
-const chatBox = document.getElementById('chat-box');
-const mensagemInput = document.getElementById('mensagem');
-const welcomeBox = document.getElementById('welcome-box');
+document.addEventListener('DOMContentLoaded', async () => {
+    const inputField = document.querySelector('#input input');
+    const sendButton = document.getElementById('send-button');
+    const deleteButton = document.getElementById('delete-button');
+    const chatContainer = document.getElementById('chat');
+    const noMessageArticle = document.getElementById('no-message');
 
-chatForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+    const token = localStorage.getItem('token');
 
-  if (welcomeBox) {
-    welcomeBox.remove();
-    chatBox.style.display = 'block';
-  }
+    function addMessageToChat(role, content) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', role);
+        messageElement.innerHTML = content;
+        chatContainer.appendChild(messageElement);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        return messageElement;
+    }
 
-  const mensagem = mensagemInput.value.trim();
-  if (!mensagem) return;
+    function formatMessageContent(content) {
+        const boldRegex = /\*\*(.*?)\*\*/g;
+        const codeRegex = /```(.*?)```/gs;
 
-  adicionarMensagem(mensagem, 'usuario');
-  mensagemInput.value = '';
-  chatBox.scrollTop = chatBox.scrollHeight;
+        content = content.replace(boldRegex, '<b>$1</b>');
+        content = content.replace(codeRegex, '<p id="code">$1</p>');
 
-  try {
-    const resposta = await fetch('/api/conversa', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ mensagem }),
+        return content;
+    }
+
+    async function loadSavedMessages() {
+        try {
+            const response = await fetch('/messages', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Erro ao carregar mensagens');
+            }
+            const messages = await response.json();
+            if (messages.length > 0) {
+                noMessageArticle.style.display = 'none';
+                messages.forEach(message => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = message.content;
+                    const thinkElements = tempDiv.querySelectorAll('think');
+                    thinkElements.forEach(el => {
+                        const p = document.createElement('p');
+                        p.id = 'think';
+                        p.innerHTML = el.innerHTML;
+                        el.replaceWith(p);
+                    });
+                    let formattedContent = tempDiv.innerHTML;
+                    formattedContent = formatMessageContent(formattedContent);
+                    addMessageToChat(message.role, formattedContent);
+                });
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    }
+
+    await loadSavedMessages();
+
+    async function sendMessage() {
+        const content = inputField.value.trim();
+        if (!content) return;
+
+        noMessageArticle.style.display = 'none';
+        addMessageToChat('user', formatMessageContent(content));
+        inputField.value = '';
+
+        try {
+            const response = await fetch('/api/conversa', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ mensagem: content }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao enviar mensagem');
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let result = '';
+            const assistantMessageElement = addMessageToChat('assistant', '');
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                result += decoder.decode(value);
+
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = result;
+                const thinkElements = tempDiv.querySelectorAll('think');
+                thinkElements.forEach(el => {
+                    const p = document.createElement('p');
+                    p.id = 'think';
+                    p.innerHTML = el.innerHTML;
+                    el.replaceWith(p);
+                });
+                let formattedResult = tempDiv.innerHTML;
+                formattedResult = formatMessageContent(formattedResult);
+                assistantMessageElement.innerHTML = formattedResult;
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            await fetch('/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ content, role: 'user' }),
+            });
+
+            await fetch('/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ content: result, role: 'assistant' }),
+            });
+
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    }
+
+    async function deleteMessages() {
+        try {
+            const response = await fetch('/messages', {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Erro ao excluir mensagens');
+            }
+            noMessageArticle.style.display = 'block';
+            chatContainer.innerHTML = '';
+            chatContainer.appendChild(noMessageArticle);
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+
+    inputField.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
     });
-    
-    if (!resposta.ok) {
-      throw new Error('Erro na resposta da API');
-    }
-    
-    const reader = resposta.body.getReader();
-    const decoder = new TextDecoder('utf-8');
-    
-    let respostaCompleta = '';
-    let isStreaming = false;
-    
-    let readCount = 0;
-    
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      readCount++;
-      
-      const chunk = decoder.decode(value, { stream: true });
-      respostaCompleta += chunk;
-    
-      // Agora, só consideramos streaming se tivermos mais de 1 chunk.
-      if (readCount > 1) {
-        isStreaming = true;
-      }
-    
-      if (isStreaming) {
-        // Atualiza a mensagem de streaming aqui
-        atualizarOuAdicionarMensagemStream(respostaCompleta, 'gemini');
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
-    }
-    
-    // Se após o loop, readCount for 1, significa que só veio um chunk.
-    // Então não é streaming, podemos tentar fazer parse do JSON.
-    if (!isStreaming) {
-      try {
-        const dados = JSON.parse(respostaCompleta);
-        const respostaGemini = dados.resposta || 'Desculpe, não entendi.';
-        adicionarMensagem(respostaGemini, 'gemini');
-      } catch (e) {
-        // Se não for JSON válido, mostra texto cru
-        adicionarMensagem(respostaCompleta, 'gemini');
-      }
-    }
 
-    chatBox.scrollTop = chatBox.scrollHeight;
-  } catch (error) {
-    console.error(error);
-    adicionarMensagem('Ocorreu um erro ao se comunicar com o servidor.', 'gemini');
-  }
+    deleteButton.addEventListener('click', deleteMessages);
 });
-
-function adicionarMensagem(texto, tipo) {
-  const mensagemDiv = document.createElement('div');
-  mensagemDiv.classList.add('mensagem', tipo);
-  mensagemDiv.textContent = texto;
-  chatBox.appendChild(mensagemDiv);
-}
-
-// Função para atualizar a mensagem streaming. 
-// Caso já exista uma mensagem 'gemini' que esteja sendo usada para streaming, atualize seu conteúdo.
-// Caso contrário, cria uma nova mensagem.
-function atualizarOuAdicionarMensagemStream(texto, tipo) {
-  const mensagens = chatBox.getElementsByClassName('mensagem');
-  let ultimaMensagemGemini = null;
-  for (let i = mensagens.length - 1; i >= 0; i--) {
-    if (mensagens[i].classList.contains('gemini')) {
-      ultimaMensagemGemini = mensagens[i];
-      break;
-    }
-  }
-
-  if (ultimaMensagemGemini) {
-    ultimaMensagemGemini.textContent = texto;
-  } else {
-    adicionarMensagem(texto, tipo);
-  }
-}
