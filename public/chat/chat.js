@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const noMessageArticle = document.getElementById('no-message');
 
     const token = localStorage.getItem('token');
+    const apiUrl = 'https://funky-wizard.vercel.app';
 
     function addMessageToChat(role, content) {
         const messageElement = document.createElement('div');
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadSavedMessages() {
         try {
-            const response = await fetch('/messages', {
+            const response = await fetch(`${apiUrl}/messages`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         inputField.value = '';
 
         try {
-            const response = await fetch('/api/conversa', {
+            const response = await fetch(`${apiUrl}/api/conversa`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -111,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
 
-            await fetch('/messages', {
+            await fetch(`${apiUrl}/messages`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -120,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 body: JSON.stringify({ content, role: 'user' }),
             });
 
-            await fetch('/messages', {
+            await fetch(`${apiUrl}/messages`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -136,7 +137,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function deleteMessages() {
         try {
-            const response = await fetch('/messages', {
+            const response = await fetch(`${apiUrl}/messages`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

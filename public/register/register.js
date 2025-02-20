@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('register-form');
+    const apiUrl = 'https://funky-wizard.vercel.app';
 
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('/register', {
+            const response = await fetch(`${apiUrl}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
