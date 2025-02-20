@@ -6,9 +6,5 @@
         { "src": "public/**/*.js", "use": "@vercel/static" },
         { "src": "public/**/*.css", "use": "@vercel/static" },
         { "src": "public/assets/**/*", "use": "@vercel/static" }
-    ],
-    "routes": [
-        { "src": "/api/(.*)", "dest": "server.js" },
-        { "src": "/(.*)", "dest": "/public/$1" }
     ]
 }
