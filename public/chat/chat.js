@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadSavedMessages() {
         try {
-            const response = await fetch(`${apiUrl}/messages`, {
+            const response = await fetch(`${apiUrl}/api/messages`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
 
-            await fetch(`${apiUrl}/messages`, {
+            await fetch(`${apiUrl}/api/messages`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 body: JSON.stringify({ content, role: 'user' }),
             });
 
-            await fetch(`${apiUrl}/messages`, {
+            await fetch(`${apiUrl}/api/messages`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function deleteMessages() {
         try {
-            const response = await fetch(`${apiUrl}/messages`, {
+            const response = await fetch(`${apiUrl}/api/messages`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

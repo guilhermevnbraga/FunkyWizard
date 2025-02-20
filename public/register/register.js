@@ -16,10 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            console.log('email:', email);
-            console.log('username:', username);
-            console.log('password:', password);
-            const response = await fetch(`${apiUrl}/register`, {
+            const response = await fetch(`${apiUrl}/api/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
