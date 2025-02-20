@@ -13,6 +13,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const SECRET_KEY = process.env.SECRET_KEY || "secret_key";
 
@@ -20,6 +21,17 @@ const client = new ModelClient(
     process.env.AZURE_ENDPOINT_URI,
     new AzureKeyCredential(process.env.AZURE_API_KEY)
 );
+
+const allowedOrigins = ['https://funky-wizard.vercel.app'];
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
 
 async function sendMessage(messages, res, userId) {
     const response = await client.path("/chat/completions").post({
