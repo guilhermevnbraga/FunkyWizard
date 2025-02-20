@@ -7,8 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const chatContainer = document.getElementById('chat');
     const noMessageArticle = document.getElementById('no-message');
 
-    const token = localStorage.getItem('token');
-    const apiUrl = 'https://funky-wizard.vercel.app';
+    const token = 'https://funky-wizard.vercel.app';
 
     function addMessageToChat(role, content) {
         const messageElement = document.createElement('div');
@@ -38,6 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
             if (!response.ok) {
+                console.log(response)
                 throw new Error('Erro ao carregar mensagens');
             }
             const messages = await response.json();
