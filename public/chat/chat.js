@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const noMessageArticle = document.getElementById('no-message');
 
     const token = localStorage.getItem('token');
-    const apiUrl = 'http://localhost:3000';
+    const apiUrl = 'https://funky-wizard.vercel.app';
 
     function addMessageToChat(role, content) {
         const messageElement = document.createElement('div');
