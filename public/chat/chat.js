@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const noMessageArticle = document.getElementById('no-message');
 
     const token = localStorage.getItem('token');
-    const apiUrl = 'https://funky-wizard.vercel.app';
+    const apiUrl = 'http://localhost:3000';
 
     function addMessageToChat(role, content) {
         const messageElement = document.createElement('div');
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         inputField.value = '';
 
         try {
-            const response = await fetch(`${apiUrl}/conversa`, {
+            const response = await fetch(`${apiUrl}/api/conversa`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
