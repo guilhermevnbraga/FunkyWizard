@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
+            console.log('email:', email);
+            console.log('username:', username);
+            console.log('password:', password);
             const response = await fetch(`${apiUrl}/register`, {
                 method: 'POST',
                 headers: {
