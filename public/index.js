@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
-    const apiUrl = 'http://localhost:3000';
+    const apiUrl = 'https://funky-wizard.vercel.app/';
 
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
