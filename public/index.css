@@ -1,0 +1,120 @@
+html {
+    height: 99%;
+    margin: 0;
+    padding-inline: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Montserrat", sans-serif;
+    background-color: #f0f0f0;
+    background-image: url("assets/loginBackground.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#about {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 69vh;
+    text-align: center;
+}
+
+#about p {
+    max-width: 60%;
+    font-size: 1.1rem;
+}
+
+#about h1 {
+    max-width: 60%;
+    text-decoration: underline;
+    font-weight: 900;
+    font-size: 2rem;
+}
+
+#about h2 {
+    font-size: 1.7rem;
+}
+
+#about h3 {
+    font-size: 1.6rem;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 36%;
+    text-align: center;
+    background-color: #01b8b8;
+    border-radius: 36px;
+    padding-block: 32px;
+}
+
+#logo-full {
+    width: 60%;
+}
+
+#form h2 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+#form h3 {
+    font-weight: 500;
+    max-width: 40%;
+}
+
+#form form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+#form input {
+    width: 60%;
+    height: 51px;
+    border: none;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 1rem;
+}
+
+#form button {
+    width: 40%;
+    height: 40px;
+    border: none;
+    border-radius: 12px;
+    background-color: #f0f0f0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #01b8b8;
+    font-size: 1.2rem;
+    height: 50px;
+}
+
+#form a {
+    color: black;
+    font-size: 1rem;
+    max-width: 50%;
+    margin-bottom: 16px;
+}
+
+#form p {
+    margin-bottom: 0;
+}

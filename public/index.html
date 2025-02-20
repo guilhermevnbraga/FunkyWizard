@@ -1,121 +1,48 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Funky Wizard</title>
-        <link rel="stylesheet" href="style.css" />
+        <title>Tech Assist</title>
+        <link rel="stylesheet" href="index.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" />
     </head>
     <body>
-        <header>
-            <div id="user-nav">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6"
-                    width="4vw"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                </svg>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6"
-                    width="4vw"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                </svg>
-            </div>
-            <div id="chat-nav">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6"
-                    width="4vw"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-                    />
-                </svg>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6"
-                    width="2vw"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                </svg>
-            </div>
-        </header>
-        <main>
-            <div id="welcome-box">
-                <p>"Olá! Estou aqui para ajudar 🚀"</p>
-                <p>Digite uma pergunta ou comando para começar. Por exemplo:
-                    <ul>
-                        <li>
-                            <p>"Como usar a API X para autenticação?"</p>
-                        </li>
-                        <li>
-                            <p>"Quais são os principais métodos da biblioteca Y?"</p>
-                        </li>
-                        <li>
-                            <p>"Como declarar arrays na linguagem Z?"</p>
-                        </li>
-                    </ul>
-                </p>
-                <span>Quanto mais específica for sua pergunta, melhor será minha</span><br>
-                <span>resposta. Vamos simplificar sua jornada tecnológica juntos!</span>
-            </div>
-            <div id="chat-box"></div>
-        </main>
-        <footer>
-            <form id="chat-form">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" width="4vw">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>                      
-                </button>
-                <input
-                    type="text"
-                    id="mensagem"
-                    placeholder="Digite sua mensagem..."
-                    required
-                />
-                <button type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" width="4vw">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                    </svg>
-                </button>
+        <article id="about">
+            <h2>Descubra o TechAssist</h2>
+            <p>
+                Seja você iniciante ou profissional experiente, o TechAssist é
+                seu parceiro ideal para explorar ferramentas tecnológicas. Este
+                app usa Inteligência Artificial para simplificar seu trabalho
+                com linguagens de programação, APIs, bibliotecas e muito mais.
+            </p>
+            <p>
+                Basta perguntar! Nosso assistente encontra as respostas
+                diretamente na documentação oficial da ferramenta que você
+                precisa, guiando você passo a passo.
+            </p>
+            <h3>Vantagens do TechAssist</h3>
+            <p>
+                Respostas sempre atualizadas, mesmo para ferramentas menos
+                conhecidas ou que passaram por grandes atualizações.
+            </p>
+            <p>
+                Facilidade para encontrar informações precisas sem perder tempo
+                navegando por páginas complexas.
+            </p>
+            <h1>TechAssist: sua tecnologia, simplificada.</h1>
+        </article>
+        <div id="form">
+            <img id="logo-full" src="./assets/logoFull.png" alt="TechAssist" />
+            <h2>Login</h2>
+            <h3>Olá, faça login para entrar na sua conta ou crie uma agora!</h3>
+            <form action="./chat/chat.html">
+                <input type="text" placeholder="Email" />
+                <input type="password" placeholder="Senha" />
+                <button>Entrar na conta</button>
             </form>
-        </footer>
-
-        <script src="script.js"></script>
+            <p>Ainda não tem uma conta?</p>
+            <a href="/register/register.html">Registre uma agora mesmo</a>
+        </div>
     </body>
 </html>
