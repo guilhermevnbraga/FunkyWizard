@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const inputField = document.querySelector('#input input');
     const sendButton = document.getElementById('send-button');
     const deleteButton = document.getElementById('delete-button');
+    const logoutButton = document.getElementById('logout-button');
+    const confirmLogoutButton = document.getElementById('confirm-logout-button');
     const chatContainer = document.getElementById('chat');
     const noMessageArticle = document.getElementById('no-message');
 
@@ -151,6 +153,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    function logout() {
+        localStorage.removeItem('token');
+        window.location.href = '../index.html';
+    }
+
     sendButton.addEventListener('click', sendMessage);
 
     inputField.addEventListener('keypress', (e) => {
@@ -160,4 +167,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     deleteButton.addEventListener('click', deleteMessages);
+
+    logoutButton.addEventListener('click', () => {
+        confirmLogoutButton.style.display = confirmLogoutButton.style.display === 'none' ? 'block' : 'none';
+    });
+
+    confirmLogoutButton.addEventListener('click', logout);
 });

@@ -117,3 +117,25 @@ main {
     white-space: pre-wrap;
     overflow-x: auto;
 }
+
+#logout-button {
+    width: fit-content;
+    height: fit-content;
+}
+
+#logout-button:hover {
+    cursor: pointer;
+}
+
+#confirm-logout-button {
+    background-color: #d1eeee;
+    width: 100%;
+    height: 3vh;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+#confirm-logout-button:hover {
+    cursor: pointer;
+}
