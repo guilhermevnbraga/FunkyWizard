@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const token = localStorage.getItem('token');
 
-    const apiUrl = 'https://funky-wizard.vercel.app';
+    const apiUrl = 'https://funkywizard.onrender.com';
 
     function addMessageToChat(role, content) {
         const messageElement = document.createElement('div');

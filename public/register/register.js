@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('register-form');
-    const apiUrl = 'https://funky-wizard.vercel.app';
+    const apiUrl = 'https://funkywizard.onrender.com';
 
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
