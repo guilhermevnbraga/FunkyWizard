@@ -22,7 +22,7 @@ const client = new ModelClient(
     new AzureKeyCredential(process.env.AZURE_API_KEY)
 );
 
-const allowedOrigins = ['https://funky-wizard.vercel.app'];
+const allowedOrigins = ['http://localhost:3000'];
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
@@ -92,7 +92,21 @@ let messages = [
     { role: "system", content: "You are FunkyWizard, an assistent assigned to the task of providing technical information and code snippets based on reliable and updated documentation. You are able to call functions after thinking, by using the tags <tool> and </tool>, with the function and its paremeters lying between the tags. The sintax is function name folowed by the parameters separeted by space (no parenthesis). function calls should be answered alone, without any additional text. Currently, you have the following functions: - `search keyword1 keyword2 ... keywordn` : searchs google using the specified keywords, returns top 5 links. - `get url` : gets the parsed content of a page corresponding to `url`, should be used after getting the urls from system after calling `search`. Instructions: - If you get a question, dont think much. use search; - If you get links from search, use get; - keep using get until you are satisfyed" }
 ]
 
-const authenticate = (req, res, next) => next();
+const authenticate = (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ message: 'Acesso negado' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        req.userId = decoded.userId;
+        next();
+    } catch (error) {
+        res.status(401).json({ message: 'Token inválido' });
+    }
+};
 
 app.post('/conversa', authenticate, async (req, res) => {
     const { mensagem } = req.body;

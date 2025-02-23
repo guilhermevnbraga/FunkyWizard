@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
-    const apiUrl = 'https://funky-wizard.vercel.app';
+    const apiUrl = 'http://localhost:3000';
 
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = loginForm.querySelector('input[placeholder="Senha"]').value;
 
         try {
-            const response = await fetch(`${apiUrl}/api/login`, {
+            const response = await fetch(`${apiUrl}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
