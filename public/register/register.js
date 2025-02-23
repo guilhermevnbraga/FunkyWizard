@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(data.message);
             window.location.href = '../index.html';
         } catch (error) {
-            console.error('Erro:', error);
+            console.log('Erro:', error);
             alert(error.message);
         }
     });
