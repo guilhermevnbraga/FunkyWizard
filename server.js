@@ -108,7 +108,7 @@ const authenticate = (req, res, next) => {
     }
 };
 
-app.post('/conversa', authenticate, async (req, res) => {
+app.post('/api/conversa', authenticate, async (req, res) => {
     const { mensagem } = req.body;
 
     res.setHeader('Content-Type', 'text/event-stream');
