@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         content = content.replace(boldRegex, '<b>$1</b>');
         content = content.replace(codeRegex, '<p id="code">$1</p>');
-        content = content.replace(singleBacktickRegex, '<p id="italic">$1</p>');
+        content = content.replace(singleBacktickRegex, '<span id="italic">$1</span>');
 
         return content;
     }
