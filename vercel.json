@@ -7,8 +7,12 @@
         { "src": "public/**/*.css", "use": "@vercel/static" },
         { "src": "public/assets/**/*", "use": "@vercel/static" }
     ],
-    "routes": [
-        { "src": "/(.*)", "dest": "server.js" },
-        { "src": "/(.*)", "dest": "/public/$1" }
-    ]
+    "rewrites": [
+        { "source": "/api/(.*)", "destination": "/server.js" },
+        { "source": "/login", "destination": "/server.js" },
+        { "source": "/register", "destination": "/server.js" },
+        { "source": "/messages", "destination": "/server.js" },
+        { "source": "/conversa", "destination": "/server.js" },
+        { "source": "/(.*)", "destination": "/public/$1" }
+    ],
 }
