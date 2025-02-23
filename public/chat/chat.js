@@ -85,10 +85,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 body: JSON.stringify({ mensagem: content }),
             });
 
-            if (!response.ok) {
-                throw new Error('Erro ao enviar mensagem');
-            }
-
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             let result = '';
