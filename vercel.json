@@ -7,6 +7,7 @@
         { "src": "public/**/*.css", "use": "@vercel/static" },
         { "src": "public/assets/**/*", "use": "@vercel/static" }
     ],
+    "buildCommand": "npx prisma generate",
     "rewrites": [
         { "source": "/api/(.*)", "destination": "/server.js" },
         { "source": "/login", "destination": "/server.js" },
