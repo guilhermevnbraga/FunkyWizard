@@ -9,7 +9,7 @@
     ],
     "buildCommand": "npx prisma generate",
     "rewrites": [
-        { "source": "/api/(.*)", "destination": "/server.js" },
+        { "source": "/api/(.*)", "destination": "/" },
         { "source": "/(.*)", "destination": "/public/$1" }
     ],
     "headers": [
