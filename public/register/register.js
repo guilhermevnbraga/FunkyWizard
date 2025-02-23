@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("a")
 
             if (!response.ok) {
-                const errorData = await response.text();
+                const errorData = await response.json();
                 console.log(errorData)
             }
 
