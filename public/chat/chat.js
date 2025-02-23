@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const token = localStorage.getItem('token');
 
-    const apiUrl = 'http:localhost:3000';
+    const apiUrl = 'http://localhost:3000';
 
     function addMessageToChat(role, content) {
         const messageElement = document.createElement('div');
@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const { done, value } = await reader.read();
                 if (done) break;
                 result += decoder.decode(value);
+                console.log(result)
 
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = result;
