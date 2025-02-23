@@ -267,7 +267,7 @@ async function fetchPage(url) {
     }
 }
 
-app.post('/register', async (req, res) => {
+app.post('/api/register', async (req, res) => {
     const { email, username, password } = req.body;
     console.log("c")
 
@@ -295,7 +295,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -316,7 +316,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.post('/messages', authenticate, async (req, res) => {
+app.post('/api/messages', authenticate, async (req, res) => {
     const { content, role } = req.body;
 
     if (!content) {
@@ -337,7 +337,7 @@ app.post('/messages', authenticate, async (req, res) => {
     }
 });
 
-app.get('/messages', authenticate, async (req, res) => {
+app.get('/api/messages', authenticate, async (req, res) => {
     try {
         const messages = await prisma.message.findMany({
             where: { userId: req.userId },
@@ -349,7 +349,7 @@ app.get('/messages', authenticate, async (req, res) => {
     }
 });
 
-app.delete('/messages', authenticate, async (req, res) => {
+app.delete('/api/messages', authenticate, async (req, res) => {
     try {
         await prisma.message.deleteMany({ where: { userId: req.userId } });
         res.status(200).json({ message: 'Conversa reiniciada com sucesso' });

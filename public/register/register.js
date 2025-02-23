@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             console.log(JSON.stringify({ email, username, password }))
-            const response = await fetch(`${apiUrl}/register`, {
+            const response = await fetch(`${apiUrl}/api/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

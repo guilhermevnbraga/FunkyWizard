@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = loginForm.querySelector('input[placeholder="Senha"]').value;
 
         try {
-            const response = await fetch(`${apiUrl}/login`, {
+            const response = await fetch(`${apiUrl}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
