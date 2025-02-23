@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const token = localStorage.getItem('token');
 
-    const apiUrl = 'https://funkywizard.onrender.com';
+    const apiUrl = 'http:localhost:3000';
 
     function addMessageToChat(role, content) {
         const messageElement = document.createElement('div');

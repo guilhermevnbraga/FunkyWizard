@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('register-form');
-    const apiUrl = 'https://funkywizard.onrender.com';
+    const apiUrl = 'http:localhost:3000';
 
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();

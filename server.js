@@ -22,7 +22,7 @@ const client = new ModelClient(
     new AzureKeyCredential(process.env.AZURE_API_KEY)
 );
 
-const allowedOrigins = ['https://funkywizard.onrender.com'];
+const allowedOrigins = ['http:localhost:3000'];
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
