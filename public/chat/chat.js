@@ -21,15 +21,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function formatMessageContent(content) {
-        const boldRegex = /\*\*(.*?)\*\*/g;
-        const codeRegex = /```(.*?)```/gs;
-        const singleBacktickRegex = /`([^`]+)`/g;
 
-        content = content.replace(boldRegex, '<b>$1</b>');
-        content = content.replace(codeRegex, '<p id="code">$1</p>');
-        content = content.replace(singleBacktickRegex, '<span id="italic">$1</span>');
-
-        return content;
+        return marked.parse(content);
     }
 
     async function loadSavedMessages() {
@@ -48,17 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (messages.length > 0) {
                 noMessageArticle.style.display = 'none';
                 messages.forEach(message => {
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = message.content;
-                    const thinkElements = tempDiv.querySelectorAll('think');
-                    thinkElements.forEach(el => {
-                        const p = document.createElement('p');
-                        p.id = 'think';
-                        p.innerHTML = el.innerHTML;
-                        el.replaceWith(p);
-                    });
-                    let formattedContent = tempDiv.innerHTML;
-                    formattedContent = formatMessageContent(formattedContent);
+                    const formattedContent = formatMessageContent(message.content);
                     addMessageToChat(message.role, formattedContent);
                 });
             }
@@ -94,22 +77,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             while (true) {
                 const { done, value } = await reader.read();
-                if (done) break;
+                if (done) {
+                    console.log(result)
+                    break;
+                };
                 result += decoder.decode(value);
-                console.log(result)
 
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = result;
-                const thinkElements = tempDiv.querySelectorAll('think');
-                thinkElements.forEach(el => {
-                    const p = document.createElement('p');
-                    p.id = 'think';
-                    p.innerHTML = el.innerHTML;
-                    el.replaceWith(p);
-                });
-                let formattedResult = tempDiv.innerHTML;
-                formattedResult = formatMessageContent(formattedResult);
-                assistantMessageElement.innerHTML = formattedResult;
+                const formattedContent = formatMessageContent(result);
+                assistantMessageElement.innerHTML = formattedContent;
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
 
