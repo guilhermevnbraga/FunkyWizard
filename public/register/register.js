@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 const errorData = await response.json();
                 console.log(errorData)
-                throw new Error(errorData.message || 'Erro ao criar conta');
             }
 
             const data = await response.json();
@@ -38,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(data.message);
             window.location.href = '../index.html';
         } catch (error) {
-            console.log('Erro:', error);
+            console.log(error);
             alert(error.message);
         }
     });
