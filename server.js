@@ -269,12 +269,15 @@ async function fetchPage(url) {
 
 app.post('/register', async (req, res) => {
     const { email, username, password } = req.body;
+    console.log("c")
 
     if (!email || !username || !password) {
+        console.log("d")
         return res.status(400).json({ message: 'Preencha todos os campos!' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("e")
 
     try {
         console.log("b")
