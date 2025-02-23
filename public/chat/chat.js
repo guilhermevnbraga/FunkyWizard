@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function formatMessageContent(content) {
-
         return marked.parse(content);
     }
 
@@ -41,8 +40,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (messages.length > 0) {
                 noMessageArticle.style.display = 'none';
                 messages.forEach(message => {
-                    const formattedContent = formatMessageContent(message.content);
-                    addMessageToChat(message.role, formattedContent);
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = message.content;
+                    const thinkElements = tempDiv.querySelectorAll('think');
+                    let thinkContent = '';
+                    thinkElements.forEach(el => {
+                        const p = document.createElement('p');
+                        p.id = 'think';
+                        p.innerHTML = el.innerHTML;
+                        thinkContent += p.outerHTML;
+                        el.remove();
+                    });
+                    const formattedContent = formatMessageContent(tempDiv.innerHTML);
+                    addMessageToChat(message.role, thinkContent + formattedContent);
                 });
             }
         } catch (error) {
@@ -77,14 +87,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             while (true) {
                 const { done, value } = await reader.read();
-                if (done) {
-                    console.log(result)
-                    break;
-                };
+                if (done) break;
                 result += decoder.decode(value);
 
-                const formattedContent = formatMessageContent(result);
-                assistantMessageElement.innerHTML = formattedContent;
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = result;
+                const thinkElements = tempDiv.querySelectorAll('think');
+                let thinkContent = '';
+                thinkElements.forEach(el => {
+                    const p = document.createElement('p');
+                    p.id = 'think';
+                    p.innerHTML = el.innerHTML;
+                    thinkContent += p.outerHTML;
+                    el.remove();
+                });
+                let formattedResult = tempDiv.innerHTML;
+                formattedResult = formatMessageContent(formattedResult);
+                assistantMessageElement.innerHTML = thinkContent + formattedResult;
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
 
