@@ -58,7 +58,7 @@ FunkyWizard é uma aplicação desenvolvida para facilitar a vida dos programado
 
 ## Deploy
 
-A aplicação está hospedada na vercel: [FunkyWizard](https://funkywizard.onrender.com/)
+A aplicação está hospedada na vercel: [FunkyWizard](http://localhost:3000/)
 
 ## Como Executar o Projeto Localmente
 
@@ -106,5 +106,5 @@ npm start
 6.  Acesse no seu navegador:
 
 ```bash
-https://funkywizard.onrender.com
+http://localhost:3000
 ```

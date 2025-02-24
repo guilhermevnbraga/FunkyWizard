@@ -21,5 +21,4 @@ model Message {
   createdAt DateTime @default(now())
   userId    Int?
   user      User?    @relation(fields: [userId], references: [id])
-  role      String   // 'user' or 'assistant'
-}
+  role      String

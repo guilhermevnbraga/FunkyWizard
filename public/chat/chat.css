@@ -81,7 +81,8 @@ main {
     border-end-end-radius: 0;
     max-width: 90%;
     text-align: justify;
-    padding: 16px;
+    padding-inline: 16px;
+    padding-block: 0;
 }
 
 .message.assistant {
@@ -106,20 +107,6 @@ main {
 
 #delete-button:hover {
     cursor: pointer;
-}
-
-#code {
-    background-color: #f5f5f5;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 8px;
-    font-family: 'Courier New', Courier, monospace;
-    white-space: pre-wrap;
-    overflow-x: auto;
-}
-
-#italic {
-    font-style: italic;
 }
 
 #logout-button {

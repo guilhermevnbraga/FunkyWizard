@@ -8,8 +8,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     const noMessageArticle = document.getElementById('no-message');
 
     const token = localStorage.getItem('token');
+    const apiUrl = 'http://localhost:3000';
 
-    const apiUrl = 'https://funkywizard.onrender.com';
+    function createThinkElement(content) {
+        const thinkContainer = document.createElement('div');
+        thinkContainer.classList.add('think-container');
+
+        const toggleButton = document.createElement('button');
+        toggleButton.textContent = 'Mostrar pensamento';
+        toggleButton.classList.add('toggle-think');
+
+        const thinkContent = document.createElement('p');
+        thinkContent.classList.add('think-content');
+        thinkContent.innerHTML = content;
+        thinkContent.style.display = 'none';
+
+        toggleButton.addEventListener('click', () => {
+            if (thinkContent.style.display === 'none') {
+                thinkContent.style.display = 'block';
+                toggleButton.textContent = 'Esconder pensamento';
+            } else {
+                thinkContent.style.display = 'none';
+                toggleButton.textContent = 'Mostrar pensamento';
+            }
+        });
+
+        thinkContainer.appendChild(toggleButton);
+        thinkContainer.appendChild(thinkContent);
+
+        return thinkContainer.outerHTML;
+    }
 
     function addMessageToChat(role, content) {
         const messageElement = document.createElement('div');
@@ -28,14 +56,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const response = await fetch(`${apiUrl}/api/messages`, {
                 method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                headers: { 'Authorization': `Bearer ${token}` }
             });
-            if (!response.ok) {
-                console.log(response)
-                throw new Error('Erro ao carregar mensagens');
-            }
+            if (!response.ok) throw new Error('Erro ao carregar mensagens');
+
             const messages = await response.json();
             if (messages.length > 0) {
                 noMessageArticle.style.display = 'none';
@@ -43,14 +67,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const tempDiv = document.createElement('div');
                     tempDiv.innerHTML = message.content;
                     const thinkElements = tempDiv.querySelectorAll('think');
+
                     let thinkContent = '';
                     thinkElements.forEach(el => {
-                        const p = document.createElement('p');
-                        p.id = 'think';
-                        p.innerHTML = el.innerHTML;
-                        thinkContent += p.outerHTML;
+                        thinkContent += createThinkElement(el.innerHTML);
                         el.remove();
                     });
+
                     const formattedContent = formatMessageContent(tempDiv.innerHTML);
                     addMessageToChat(message.role, thinkContent + formattedContent);
                 });
@@ -93,14 +116,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = result;
                 const thinkElements = tempDiv.querySelectorAll('think');
+
                 let thinkContent = '';
                 thinkElements.forEach(el => {
-                    const p = document.createElement('p');
-                    p.id = 'think';
-                    p.innerHTML = el.innerHTML;
-                    thinkContent += p.outerHTML;
+                    thinkContent += createThinkElement(el.innerHTML);
                     el.remove();
                 });
+
                 let formattedResult = tempDiv.innerHTML;
                 formattedResult = formatMessageContent(formattedResult);
                 assistantMessageElement.innerHTML = thinkContent + formattedResult;
@@ -134,13 +156,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const response = await fetch(`${apiUrl}/api/messages`, {
                 method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                headers: { 'Authorization': `Bearer ${token}` }
             });
-            if (!response.ok) {
-                throw new Error('Erro ao excluir mensagens');
-            }
+            if (!response.ok) throw new Error('Erro ao excluir mensagens');
+
             noMessageArticle.style.display = 'block';
             chatContainer.innerHTML = '';
             chatContainer.appendChild(noMessageArticle);
@@ -155,18 +174,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     sendButton.addEventListener('click', sendMessage);
-
     inputField.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            sendMessage();
-        }
+        if (e.key === 'Enter') sendMessage();
     });
-
     deleteButton.addEventListener('click', deleteMessages);
-
     logoutButton.addEventListener('click', () => {
         confirmLogoutButton.style.display = confirmLogoutButton.style.display === 'none' ? 'block' : 'none';
     });
-
     confirmLogoutButton.addEventListener('click', logout);
 });
