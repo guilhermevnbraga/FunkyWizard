@@ -14,35 +14,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         const thinkContainer = document.createElement('div');
         thinkContainer.classList.add('think-container');
 
-        const toggleButton = document.createElement('button');
-        toggleButton.textContent = 'Mostrar pensamento';
-        toggleButton.classList.add('toggle-think');
-
         const thinkContent = document.createElement('p');
         thinkContent.classList.add('think-content');
         thinkContent.innerHTML = content;
-        thinkContent.style.display = 'none';
 
-        toggleButton.addEventListener('click', () => {
-            if (thinkContent.style.display === 'none') {
-                thinkContent.style.display = 'block';
-                toggleButton.textContent = 'Esconder pensamento';
-            } else {
-                thinkContent.style.display = 'none';
-                toggleButton.textContent = 'Mostrar pensamento';
-            }
-        });
-
-        thinkContainer.appendChild(toggleButton);
         thinkContainer.appendChild(thinkContent);
 
-        return thinkContainer.outerHTML;
+        return thinkContainer;
     }
 
     function addMessageToChat(role, content) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', role);
-        messageElement.innerHTML = content;
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+
+        const thinkElements = tempDiv.querySelectorAll('think');
+        thinkElements.forEach(el => {
+            const thinkContainer = createThinkElement(el.innerHTML);
+            messageElement.appendChild(thinkContainer);
+            el.remove();
+        });
+
+        messageElement.innerHTML += tempDiv.innerHTML;
         chatContainer.appendChild(messageElement);
         chatContainer.scrollTop = chatContainer.scrollHeight;
         return messageElement;
@@ -64,18 +59,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (messages.length > 0) {
                 noMessageArticle.style.display = 'none';
                 messages.forEach(message => {
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = message.content;
-                    const thinkElements = tempDiv.querySelectorAll('think');
-
-                    let thinkContent = '';
-                    thinkElements.forEach(el => {
-                        thinkContent += createThinkElement(el.innerHTML);
-                        el.remove();
-                    });
-
-                    const formattedContent = formatMessageContent(tempDiv.innerHTML);
-                    addMessageToChat(message.role, thinkContent + formattedContent);
+                    const formattedContent = formatMessageContent(message.content);
+                    addMessageToChat(message.role, formattedContent);
                 });
             }
         } catch (error) {
@@ -94,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         inputField.value = '';
 
         try {
-            const response = await fetch(`${apiUrl}/api/conversa`, {
+            const response = await fetch(`${apiUrl}/api/chat/conversa`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -115,17 +100,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = result;
-                const thinkElements = tempDiv.querySelectorAll('think');
 
-                let thinkContent = '';
+                const thinkElements = tempDiv.querySelectorAll('think');
                 thinkElements.forEach(el => {
-                    thinkContent += createThinkElement(el.innerHTML);
+                    const thinkContainer = createThinkElement(el.innerHTML);
+                    assistantMessageElement.appendChild(thinkContainer);
                     el.remove();
                 });
 
-                let formattedResult = tempDiv.innerHTML;
-                formattedResult = formatMessageContent(formattedResult);
-                assistantMessageElement.innerHTML = thinkContent + formattedResult;
+                assistantMessageElement.innerHTML += tempDiv.innerHTML;
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
 
