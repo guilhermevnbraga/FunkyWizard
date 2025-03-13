@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const errorHandler = require('./src/middlewares/errorHandler');
 const authRoutes = require('./src/routes/authRoutes');
 const messageRoutes = require('./src/routes/messageRoutes');
 const chatRoutes = require('./src/routes/chatRoutes');
@@ -17,6 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/chat', chatRoutes);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);

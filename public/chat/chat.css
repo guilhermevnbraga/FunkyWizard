@@ -1,7 +1,7 @@
 html {
     height: 96%;
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 
 body {
@@ -75,7 +75,7 @@ main {
 }
 
 .message.user {
-    background-color: #b3cfcf;
+    background-color: #ccc;
     align-self: flex-end;
     border-radius: 16px;
     border-end-end-radius: 0;
@@ -86,18 +86,17 @@ main {
 }
 
 .message.assistant {
-    background-color: #d1eeee;
+    background-color: #ccc;
     align-self: flex-start;
     text-align: justify;
     white-space: pre-wrap;
 }
 
-#think {
-    background-color: #b3cfcf;
+.think-container {
+    background-color: #aaa;
     font-size: 1.2rem;
     padding: 8px;
     border-radius: 12px;
-    
 }
 
 #delete-button {

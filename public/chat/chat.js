@@ -29,15 +29,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = content;
+        console.log(role)
+        console.log(content)
 
-        const thinkElements = tempDiv.querySelectorAll('think');
-        thinkElements.forEach(el => {
-            const thinkContainer = createThinkElement(el.innerHTML);
-            messageElement.appendChild(thinkContainer);
-            el.remove();
-        });
+        if (role === 'assistant') {
+            const thinkTag = tempDiv.querySelectorAll('think');
+            if (thinkTag.length > 0) {
+                const thinkElement = createThinkElement(thinkTag[0].innerHTML);
+                tempDiv.innerHTML = tempDiv.innerHTML.replace(thinkTag[0].outerHTML, thinkElement.outerHTML);
+            }
+        }
 
-        messageElement.innerHTML += tempDiv.innerHTML;
+        const formattedContent = formatMessageContent(tempDiv.innerHTML);
+        messageElement.innerHTML = formattedContent;
         chatContainer.appendChild(messageElement);
         chatContainer.scrollTop = chatContainer.scrollHeight;
         return messageElement;
@@ -59,8 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (messages.length > 0) {
                 noMessageArticle.style.display = 'none';
                 messages.forEach(message => {
-                    const formattedContent = formatMessageContent(message.content);
-                    addMessageToChat(message.role, formattedContent);
+                    addMessageToChat(message.role, message.content);
                 });
             }
         } catch (error) {
@@ -75,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!content) return;
 
         noMessageArticle.style.display = 'none';
-        addMessageToChat('user', formatMessageContent(content));
+        addMessageToChat('user', content);
         inputField.value = '';
 
         try {
@@ -91,24 +94,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             let result = '';
-            const assistantMessageElement = addMessageToChat('assistant', '');
+            const assistantMessageElement = addMessageToChat('assistant', 'Pensando...');
 
             while (true) {
                 const { done, value } = await reader.read();
                 if (done) break;
                 result += decoder.decode(value);
+                console.log(result)
 
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = result;
 
-                const thinkElements = tempDiv.querySelectorAll('think');
-                thinkElements.forEach(el => {
-                    const thinkContainer = createThinkElement(el.innerHTML);
-                    assistantMessageElement.appendChild(thinkContainer);
-                    el.remove();
-                });
+                const thinkTag = tempDiv.querySelectorAll('think');
+                const thinkElement = createThinkElement(thinkTag[0].innerHTML);
+                tempDiv.innerHTML = tempDiv.innerHTML.replace(thinkTag[0].outerHTML, thinkElement.outerHTML);
 
-                assistantMessageElement.innerHTML += tempDiv.innerHTML;
+                const formattedContent = formatMessageContent(tempDiv.innerHTML);
+
+                assistantMessageElement.innerHTML = formattedContent;
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
 
