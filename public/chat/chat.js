@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         thinkContainer.classList.add('think-container');
 
         const thinkContent = document.createElement('p');
-        thinkContent.classList.add('think-content');
         thinkContent.innerHTML = content;
 
         thinkContainer.appendChild(thinkContent);
@@ -29,17 +28,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = content;
-        console.log(role)
-        console.log(content)
+        
+        const thinkContainer = document.createElement('div');
 
         if (role === 'assistant') {
-            const thinkTag = tempDiv.querySelectorAll('think');
-            if (thinkTag.length > 0) {
-                const thinkElement = createThinkElement(thinkTag[0].innerHTML);
-                tempDiv.innerHTML = tempDiv.innerHTML.replace(thinkTag[0].outerHTML, thinkElement.outerHTML);
-            }
+            const thinkTags = tempDiv.querySelectorAll('think');
+            thinkContainer.classList.add('think-container');
+
+            thinkTags.forEach(thinkTag => {
+                const thinkContent = document.createElement('p');
+                thinkContent.innerHTML = thinkTag.innerHTML;
+                thinkContainer.appendChild(thinkContent);
+            });
+
         }
 
+        tempDiv.innerHTML = tempDiv.innerHTML.replace(/<think>.*?<\/think>/g, '');
+
+        console.log(tempDiv)
+
+        chatContainer.appendChild(thinkContainer);
         const formattedContent = formatMessageContent(tempDiv.innerHTML);
         messageElement.innerHTML = formattedContent;
         chatContainer.appendChild(messageElement);
