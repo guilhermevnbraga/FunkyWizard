@@ -12,14 +12,23 @@ model User {
   email    String   @unique
   username String   @unique
   password String
-  messages Message[]
+  chats    Chat[]   // Relacionamento com a tabela Chat
+}
+
+model Chat {
+  id        Int       @id @default(autoincrement())
+  title     String
+  createdAt DateTime  @default(now())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  messages  Message[]
 }
 
 model Message {
   id        Int      @id @default(autoincrement())
   content   String
   createdAt DateTime @default(now())
-  userId    Int?
-  user      User?    @relation(fields: [userId], references: [id])
+  chatId    Int      // Relacionamento com o chat
+  chat      Chat     @relation(fields: [chatId], references: [id])
   role      String
 }

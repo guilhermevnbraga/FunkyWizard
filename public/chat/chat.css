@@ -20,6 +20,87 @@ body button {
     border: none;
 }
 
+body button:hover {
+    cursor: pointer;
+}
+
+#closed-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 16px;
+}
+
+#closed-sidebar img {
+    width: 64px;
+    height: 64px;
+}
+
+#nothing {
+    display: flex;
+    flex-grow: 1;
+}
+
+#opened-sidebar {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 16px;
+}
+
+#logo-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 64px;
+}
+
+#logo-nav img {
+    width: 300px;
+    margin-right: 16px;
+}
+
+#close-sidebar {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#new-chat-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    background-color: #d1eeee;
+    border-radius: 16px;
+}
+
+#new-chat-container span {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+#chats {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+#profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: #386269;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
 main {
     display: flex;
     flex-direction: column;

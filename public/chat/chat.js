@@ -6,6 +6,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     const confirmLogoutButton = document.getElementById('confirm-logout-button');
     const chatContainer = document.getElementById('chat');
     const noMessageArticle = document.getElementById('no-message');
+    const closedSidebar = document.getElementById('closed-sidebar');
+    const openedSidebar = document.getElementById('opened-sidebar');
+    const openSidebarButton = document.getElementById('open-sidebar');
+    const closeSidebarButton = document.getElementById('close-sidebar');
+
+    openSidebarButton.addEventListener('click', () => {
+        closedSidebar.style.display = 'none';
+        openedSidebar.style.display = 'flex';
+    });
+
+    closeSidebarButton.addEventListener('click', () => {
+        openedSidebar.style.display = 'none';
+        closedSidebar.style.display = 'flex';
+    });
 
     const token = localStorage.getItem('token');
     const apiUrl = 'http://localhost:3000';
