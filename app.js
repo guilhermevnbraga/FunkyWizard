@@ -6,7 +6,6 @@ const authRoutes = require('./src/routes/authRoutes');
 const chatsRoutes = require('./src/routes/chatsRoutes');
 const chatRoutes = require('./src/routes/chatRoutes');
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
