@@ -33,12 +33,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#386269"><path d="M180-120q-24.75 0-42.37-17.63Q120-155.25 120-180v-600q0-24.75 17.63-42.38Q155.25-840 180-840h600q24.75 0 42.38 17.62Q840-804.75 840-780v600q0 24.75-17.62 42.37Q804.75-120 780-120H180Zm207-60h393v-600H387v600Z"/></svg>
                 </button>
             </div>
-            <div id="new-chat-container">
-                <button id="new-chat">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#386269"><path d="M120-160v-620q0-24.75 17.63-42.38Q155.25-840 180-840h520q24.75 0 42.38 17.62Q760-804.75 760-780v223q-10-2-20-2.5t-20-.5q-5 0-10 .17-5 .16-10 .83v-221H180v440h301q-.67 5-.83 10-.17 5-.17 10 0 10 .5 20t2.5 20H240L120-160Zm160-460h320v-60H280v60Zm0 170h200v-60H280v60Zm410 280v-120H570v-60h120v-120h60v120h120v60H750v120h-60ZM180-340v-440 440Z"/></svg>
-                </button>
+            <button id="opened-new-chat">
+                <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#386269"><path d="M120-160v-620q0-24.75 17.63-42.38Q155.25-840 180-840h520q24.75 0 42.38 17.62Q760-804.75 760-780v223q-10-2-20-2.5t-20-.5q-5 0-10 .17-5 .16-10 .83v-221H180v440h301q-.67 5-.83 10-.17 5-.17 10 0 10 .5 20t2.5 20H240L120-160Zm160-460h320v-60H280v60Zm0 170h200v-60H280v60Zm410 280v-120H570v-60h120v-120h60v120h120v60H750v120h-60ZM180-340v-440 440Z"/></svg>
                 <span>Novo Chat</span>
-            </div>
+            </button>
             <div id="chats">
             </div>
             <button id="profile">
@@ -74,23 +72,22 @@
                     type="text"
                     placeholder="Faça aqui sua pergunta ao TechAssist..."
                 />
-                <svg
-                    id="send-button"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="size-6"
-                    stroke-width="1"
-                    width="3vw"
-                >
-                    <path
-                        d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z"
-                    />
-                </svg>
+                <button id="send-button">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="size-6"
+                        stroke-width="1"
+                        width="3vw"
+                    >
+                        <path
+                            d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z"
+                        />
+                    </svg>
+                </button>
             </div>
         </main>
-        <button id="delete-button">
-        </button>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <script src="chat.js"></script>
     </body>

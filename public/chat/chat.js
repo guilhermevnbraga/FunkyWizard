@@ -1,15 +1,20 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const inputField = document.querySelector('#input input');
     const sendButton = document.getElementById('send-button');
-    const deleteButton = document.getElementById('delete-button');
-    const logoutButton = document.getElementById('logout-button');
-    const confirmLogoutButton = document.getElementById('confirm-logout-button');
+    const newChatButton = document.getElementById('new-chat');
+    const newChatButton2 = document.getElementById('opened-new-chat');
     const chatContainer = document.getElementById('chat');
+    const chatsContainer = document.getElementById('chats');
     const noMessageArticle = document.getElementById('no-message');
     const closedSidebar = document.getElementById('closed-sidebar');
     const openedSidebar = document.getElementById('opened-sidebar');
     const openSidebarButton = document.getElementById('open-sidebar');
     const closeSidebarButton = document.getElementById('close-sidebar');
+
+    const token = localStorage.getItem('token');
+    const apiUrl = 'http://localhost:3000';
+
+    let currentChatId = 0;
 
     openSidebarButton.addEventListener('click', () => {
         closedSidebar.style.display = 'none';
@@ -20,9 +25,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         openedSidebar.style.display = 'none';
         closedSidebar.style.display = 'flex';
     });
-
-    const token = localStorage.getItem('token');
-    const apiUrl = 'http://localhost:3000';
 
     function createThinkElement(content) {
         const thinkContainer = document.createElement('div');
@@ -42,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = content;
-        
+
         const thinkContainer = document.createElement('div');
 
         if (role === 'assistant') {
@@ -54,12 +56,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 thinkContent.innerHTML = thinkTag.innerHTML;
                 thinkContainer.appendChild(thinkContent);
             });
-
         }
 
         tempDiv.innerHTML = tempDiv.innerHTML.replace(/<think>.*?<\/think>/g, '');
-
-        console.log(tempDiv)
 
         chatContainer.appendChild(thinkContainer);
         const formattedContent = formatMessageContent(tempDiv.innerHTML);
@@ -73,31 +72,94 @@ document.addEventListener('DOMContentLoaded', async () => {
         return marked.parse(content);
     }
 
-    async function loadSavedMessages() {
+    async function loadUserChats() {
         try {
-            const response = await fetch(`${apiUrl}/api/messages`, {
+            const response = await fetch(`${apiUrl}/api/chats`, {
                 method: 'GET',
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: { 'Authorization': `Bearer ${token}` },
             });
-            if (!response.ok) throw new Error('Erro ao carregar mensagens');
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error);
 
-            const messages = await response.json();
-            if (messages.length > 0) {
-                noMessageArticle.style.display = 'none';
-                messages.forEach(message => {
-                    addMessageToChat(message.role, message.content);
-                });
-            }
+            data.forEach(addChatToSidebar);
         } catch (error) {
-            console.error('Erro:', error);
+            console.error(error);
         }
     }
 
-    await loadSavedMessages();
+    function addChatToSidebar(chat) {
+        const chatElement = document.createElement('button');
+        chatElement.classList.add('chat-item');
+        chatElement.textContent = chat.title;
+        chatElement.id = `chat-button-${chat.id}`;
+
+        chatElement.addEventListener('click', () => {
+            currentChatId = chat.id;
+
+            const activeChat = document.querySelector('.chat-item-active');
+            if (activeChat) {
+                activeChat.classList.remove('chat-item-active');
+            }
+
+            chatElement.classList.add('chat-item-active');
+
+            loadChatMessages(chat.id);
+        });
+
+        chatsContainer.appendChild(chatElement);
+    }
+
+    async function loadChatMessages(chatId) {
+        try {
+            const response = await fetch(`${apiUrl}/api/chats/${chatId}/messages`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` },
+            });
+            const messages = await response.json();
+            if (!response.ok) throw new Error(messages.error);
+
+            chatContainer.innerHTML = '';
+            noMessageArticle.style.display = messages.length > 0 ? 'none' : 'block';
+            messages.forEach(message => {
+                addMessageToChat(message.role, message.content);
+            });
+        } catch (error) {
+            console.error('Erro ao carregar mensagens:', error);
+        }
+    }
+
+    async function createNewChat() {
+        currentChatId = 0;
+        chatContainer.innerHTML = '';
+        noMessageArticle.style.display = 'block';
+    }
 
     async function sendMessage() {
         const content = inputField.value.trim();
-        if (!content) return;
+        if (currentChatId === 0) {
+            try {
+                const title = content.length > 30 ? content.substring(0, 30) + '...' : content;
+
+                const response = await fetch(`${apiUrl}/api/chats`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ title }),
+                });
+
+                if (!response.ok) throw new Error('Erro ao criar chat');
+
+                const chat = await response.json();
+                currentChatId = chat.chat.id;
+                addChatToSidebar(title);
+            } catch (error) {
+                console.error('Erro ao criar novo chat:', error);
+            }
+        }
+
+        if (!content || !currentChatId) return;
 
         noMessageArticle.style.display = 'none';
         addMessageToChat('user', content);
@@ -122,7 +184,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const { done, value } = await reader.read();
                 if (done) break;
                 result += decoder.decode(value);
-                console.log(result)
 
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = result;
@@ -137,57 +198,35 @@ document.addEventListener('DOMContentLoaded', async () => {
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
 
-            await fetch(`${apiUrl}/api/messages`, {
+            await fetch(`${apiUrl}/api/chats/${currentChatId}/messages`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({ content, role: 'user' }),
             });
 
-            await fetch(`${apiUrl}/api/messages`, {
+            await fetch(`${apiUrl}/api/chats/${currentChatId}/messages`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({ content: result, role: 'assistant' }),
             });
 
         } catch (error) {
-            console.error('Erro:', error);
+            console.error('Erro ao enviar mensagem:', error);
         }
-    }
-
-    async function deleteMessages() {
-        try {
-            const response = await fetch(`${apiUrl}/api/messages`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (!response.ok) throw new Error('Erro ao excluir mensagens');
-
-            noMessageArticle.style.display = 'block';
-            chatContainer.innerHTML = '';
-            chatContainer.appendChild(noMessageArticle);
-        } catch (error) {
-            console.error('Erro:', error);
-        }
-    }
-
-    function logout() {
-        localStorage.removeItem('token');
-        window.location.href = '../index.html';
     }
 
     sendButton.addEventListener('click', sendMessage);
     inputField.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
-    deleteButton.addEventListener('click', deleteMessages);
-    logoutButton.addEventListener('click', () => {
-        confirmLogoutButton.style.display = confirmLogoutButton.style.display === 'none' ? 'block' : 'none';
-    });
-    confirmLogoutButton.addEventListener('click', logout);
+    newChatButton.addEventListener('click', createNewChat);
+    newChatButton2.addEventListener('click', createNewChat);
+
+    await loadUserChats();
 });

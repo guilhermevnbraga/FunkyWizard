@@ -3,7 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const errorHandler = require('./src/middlewares/errorHandler');
 const authRoutes = require('./src/routes/authRoutes');
-const messageRoutes = require('./src/routes/messageRoutes');
+const chatsRoutes = require('./src/routes/chatsRoutes');
 const chatRoutes = require('./src/routes/chatRoutes');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/auth', authRoutes);
-app.use('/api/messages', messageRoutes);
+app.use('/api/chats', chatsRoutes);
 app.use('/api/chat', chatRoutes);
 
 app.use(errorHandler);

@@ -45,7 +45,6 @@ body button:hover {
 #opened-sidebar {
     display: none;
     flex-direction: column;
-    align-items: center;
     gap: 16px;
     padding-bottom: 16px;
 }
@@ -69,7 +68,7 @@ body button:hover {
     height: 100%;
 }
 
-#new-chat-container {
+#opened-new-chat {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,7 +77,7 @@ body button:hover {
     border-radius: 16px;
 }
 
-#new-chat-container span {
+#new-chat span {
     font-size: 1.2rem;
     font-weight: 700;
 }
@@ -87,8 +86,8 @@ body button:hover {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    gap: 16px;
     margin-top: 16px;
+    overflow-y: auto;
 }
 
 #profile {
@@ -121,6 +120,36 @@ main {
     font-weight: 500;
 }
 
+.chat-item {
+    display: flex;
+    align-items: center;
+    background-color: #6eb1b1;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    width: 100%;
+    overflow: hidden;
+    color: #fff;
+}
+
+.chat-item-active {
+    display: flex;
+    align-items: center;
+    background-color: #386269;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    width: 100%;
+    overflow: hidden;
+    color: #fff;
+}
+
+.chat-item:hover {
+    background-color: #38626969;
+}
+
 #no-message {
     max-width: 70%;
     align-self: center;
@@ -147,6 +176,13 @@ main {
 
 #input input:focus {
     outline: none;
+}
+
+#send-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .message {
@@ -178,35 +214,4 @@ main {
     font-size: 1.2rem;
     padding: 8px;
     border-radius: 12px;
-}
-
-#delete-button {
-    width: fit-content;
-    height: fit-content;
-}
-
-#delete-button:hover {
-    cursor: pointer;
-}
-
-#logout-button {
-    width: fit-content;
-    height: fit-content;
-}
-
-#logout-button:hover {
-    cursor: pointer;
-}
-
-#confirm-logout-button {
-    background-color: #d1eeee;
-    width: 100%;
-    height: 3vh;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-#confirm-logout-button:hover {
-    cursor: pointer;
 }

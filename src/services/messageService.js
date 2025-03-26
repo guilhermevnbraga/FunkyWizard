@@ -1,15 +1,15 @@
-const { createMessage, findMessagesByUserId, deleteMessagesByUserId } = require('../models/messageModel');
+const { createMessage, findMessagesByChatId, deleteMessagesByChatId } = require('../models/messageModel');
 
-const saveMessage = async (content, role, userId) => {
-    return createMessage(content, role, userId);
+const saveMessage = async (content, role, chatId) => {
+    return createMessage(content, role, chatId);
 };
 
-const getMessages = async (userId) => {
-    return findMessagesByUserId(userId);
+const getMessages = async (chatId) => {
+    return findMessagesByChatId(chatId);
 };
 
-const deleteMessages = async (userId) => {
-    return deleteMessagesByUserId(userId);
+const deleteMessages = async (chatId) => {
+    return deleteMessagesByChatId(chatId);
 };
 
 module.exports = {
