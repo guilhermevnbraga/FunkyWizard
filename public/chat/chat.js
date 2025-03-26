@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const closeSidebarButton = document.getElementById('close-sidebar');
 
     const token = localStorage.getItem('token');
-    const apiUrl = 'http://localhost:3000';
+    const apiUrl = 'https://funkywizard.onrender.com';
 
     let currentChatId = 0;
 
