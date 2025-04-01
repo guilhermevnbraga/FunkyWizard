@@ -15,59 +15,63 @@ FunkyWizard é uma aplicação desenvolvida para facilitar a vida dos programado
 
 ## Colaboradores
 
-| Front-End | Back-End | Back-End | Designer |
-|:---------:|:--------:|:--------:|:--------:|
+|                                                    Front-End                                                    |                                              Back-End                                              |                                                   Back-End                                                   |                                                    Designer                                                     |
+| :-------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------: |
 | [![Guilherme Braga](https://avatars.githubusercontent.com/u/89932943?v=4)](https://github.com/guilhermevnbraga) | [![Gustavo](https://avatars.githubusercontent.com/u/110403830?v=4)](https://github.com/Gust4voSSM) | [![Danilo Barrote](https://avatars.githubusercontent.com/u/175836607?v=4)](https://github.com/danilobarrote) | [![Guilherme José](https://avatars.githubusercontent.com/u/175838250?v=4)](https://github.com/Guilhermejose749) |
-|    **Guilherme Braga**    |    **Gustavo Santiago**    |    **Danilo Barrote**    |    **Guilherme José**    |
+|                                               **Guilherme Braga**                                               |                                        **Gustavo Santiago**                                        |                                              **Danilo Barrote**                                              |                                               **Guilherme José**                                                |
 
 ## Especificação inicial + evolução dos ciclos e do backlog
 
 O projeto consiste em um assistente de IA (chatbot), que responde perguntas e fornece informações aos usuários sobre como usar certas funcionalidades de uma ferramenta qualquer, em especial as menos conhecidas e de difícil acesso. Para isso, o chatbot se comunica com nossa aplicação por meio de comandos de texto. Por meio da busca de palavras chaves, é realizada uma pesquisa, a qual retorna os resultados da busca (navegando por links) com resposta contextualizadas.
 
 O backlog inicial na sprint 1 continha, em ordem de maior prioridade para menor prioridade:
-- Chatbot
-- Capacidade de pesquisa
-- Busca em profundidade (capacidade de entrar em links)
-- Citação de fontes usadas
-- Exibição de imagens encontradas na pesquisa
-- Capacidade de executar código interativamente
-- Múltiplos chats
-- Capacidade de planejamento
-- Suporte a markdown
-- Suporte a exibição de código
-- Assistente reconhece imagens
-- Log de navegação
+
+-   Chatbot
+-   Capacidade de pesquisa
+-   Busca em profundidade (capacidade de entrar em links)
+-   Citação de fontes usadas
+-   Exibição de imagens encontradas na pesquisa
+-   Capacidade de executar código interativamente
+-   Múltiplos chats
+-   Capacidade de planejamento
+-   Suporte a markdown
+-   Suporte a exibição de código
+-   Assistente reconhece imagens
+-   Log de navegação
 
 Ao longo do projeto, notamos que nem todas essas funcionalidades seriam realmente necessárias, ou não seriam possíveis implementá-las.
 Com o andamento das sprints, fomos implementando cada uma aos poucos de acordo com o grau de importância visto no momento, com a seguinte evolução do backlog/ciclos de sprints:
 
-Sprint 2: 
+Sprint 2:
 Implementação do MVP funcional, com a busca por palavras chaves, integração da API...
-- Chatbot + Capacidade de pesquisa + Busca em profundidade/inteligente + citação de fontes usadas
-  
+
+-   Chatbot + Capacidade de pesquisa + Busca em profundidade/inteligente + citação de fontes usadas
+
 Sprint 3:
 Versão funcional do projeto e análise de dívida técnica, com o planejamento para o pagamento.
-- Banco de dados + Autenticação e autorização + Suporte a markdown + Chain of thought
-  
+
+-   Banco de dados + Autenticação e autorização + Suporte a markdown + Chain of thought
+
 Sprint 4:
 Aperfeiçoamento do projeto.
-- Refatoração e organização do código -> ErrorHandler + MVC
 
-Sprint final: 
+-   Refatoração e organização do código -> ErrorHandler + MVC
+
+Sprint final:
 Finalização do projeto com testes.
-- Múltiplos chats + testes do código.
 
+-   Múltiplos chats + testes do código.
 
 Logo, o backlog final foi composto de:
-- Chatbot
-- Capacidade de pesquisa
-- Busca em profundidade (capacidade de entrar em links)
-- Citação de fontes usadas
-- Múltiplos chats
-- Capacidade de planejamento (Chain of thought)
-- Suporte a markdown
-- Banco de dados + Autenticação e autorização (Bcrypt)
 
+-   Chatbot
+-   Capacidade de pesquisa
+-   Busca em profundidade (capacidade de entrar em links)
+-   Citação de fontes usadas
+-   Múltiplos chats
+-   Capacidade de planejamento (Chain of thought)
+-   Suporte a markdown
+-   Banco de dados + Autenticação e autorização (Bcrypt)
 
 ## Tecnologias Utilizadas
 
@@ -79,43 +83,72 @@ Logo, o backlog final foi composto de:
 -   **Axios** e **JSDOM** para manipulação de dados e integração de APIs
 -   **dotenv** para gerenciamento de variáveis de ambiente
 -   **Prisma** para implementação do Banco de dados
--   **Vitest** para testes automáticos de unidade
+-   **Vitest** para testes automáticos de unidade e integração
 
 ## Dívida técnica
 
 A dívida técnica foi identificada pela sprint 3, realizando o pagamento nas sprints posteriores, em que notamos:
-- Desorganização e má estruturação do código -> o pagamento foi feito pela refatoração e melhora em sua legibilidade.
-- Não conseguia reiniciar a conversa na interface do usuário -> pagamento com mudança na lógica do servidor + implementações no front-end.
-- Poluição do código fonte devido às instruções grandes -> pagamento movendo-as para outro arquivo, a fim de facilitar sua edição e "limpar" o código.
 
-## Estratégia e implementação dos testes
+-   Desorganização e má estruturação do código -> o pagamento foi feito pela refatoração e melhora em sua legibilidade.
+-   Não conseguia reiniciar a conversa na interface do usuário -> pagamento com mudança na lógica do servidor + implementações no front-end.
+-   Poluição do código fonte devido às instruções grandes -> pagamento movendo-as para outro arquivo, a fim de facilitar sua edição e "limpar" o código.
 
-Tentamos usar o padrão AAA (Arrange, Act e Assert), porém não nos prendemos tanto a isso.
-Exemplo de teste realizado:
+## Estratégia e Implementação dos Testes
 
-![](https://media.discordapp.net/attachments/1306592437216743495/1356450870631596153/image.png?ex=67ec9cd1&is=67eb4b51&hm=b8a6aa70a468687c04b1d5f9a5a37a1d8276219190a02276d9c304b4fbcac1aa&=&format=webp&quality=lossless)
-![](https://media.discordapp.net/attachments/1306592437216743495/1356450992509419571/image.png?ex=67ec9cee&is=67eb4b6e&hm=09a53e0bbf74ce16393ba2c00db92990a3b7f7ab56e0b0e53dd2edfbb25738a8&=&format=webp&quality=lossless&width=823&height=440)
+A aplicação utiliza **Vitest** para testes de unidade e integração, com cobertura abrangente para serviços, middlewares, controladores e rotas.
 
+### Estrutura de Testes
 
+-   **Testes de Unidade**: Localizados em `tests/unit`, verificam funcionalidades isoladas como:
+    -   `authService`: Geração de tokens JWT e validação de credenciais.
+    -   `errorHandler`: Tratamento de erros específicos e genéricos.
+-   **Testes de Integração**: Localizados em `tests/integration`, validam a interação entre rotas e middlewares:
+    -   `authRoutes`: Registro, login e validação de erros.
+    -   `chatRoutes`: Criação e recuperação de mensagens.
+
+### Configuração
+
+-   Banco de dados de testes configurado no `.env.test`.
+-   Arquivo `setupTests.js` para resetar o banco antes de cada execução.
+
+### Como Executar
+
+1. Instale as dependências:
+
+    ```bash
+    npm install
+    ```
+2. Execute os testes:
+
+  ```bash
+  npm test
+  ```
 
 ## Pontos fortes e pontos de melhoria do projeto
 
 Pontos fortes:
-- Modelo gratuito com reasoning 
-- Implementação versátil e customizável, podendo ser modificado
-- Suportes de chamada de função, permitindo flexibilidade para o futuro com outras ferramentas externas
+
+-   Modelo gratuito com reasoning
+-   Implementação versátil e customizável, podendo ser modificado
+-   Suportes de chamada de função, permitindo flexibilidade para o futuro com outras ferramentas externas
 
 Pontos de melhoria:
-- Realização de mais testes de integração automatizados
-- Validação do usuário
-- Aprimoramento do design da experiência do usuário (interface do usuário) (ex: seleção de cores)
+
+-   Realização de mais testes de integração automatizados
+-   Validação do usuário
+-   Aprimoramento do design da experiência do usuário (interface do usuário) (ex: seleção de cores)
 
 ## Estrutura do Projeto
 
--   **`server.js`**: Contém a lógica principal da aplicação, incluindo integração com IA, scraping e endpoints REST.
+-   **`app.js`**: Contém a lógica principal da aplicação, incluindo integração com IA, scraping e endpoints REST.
 -   **`public/`**: Diretório com arquivos estáticos, como `index.html`, `script.js` e `style.css`.
+-   **`src/routes/`**: Contém os arquivos de rotas para organizar os endpoints da aplicação.
+-   **`src/controllers/`**: Diretório com os controladores que gerenciam a lógica de negócios.
+-   **`src/models/`**: Contém os modelos de dados utilizados pela aplicação, integrados com o Prisma.
+-   **`src/middlewares/`**: Diretório com middlewares personalizados, como autenticação e tratamento de erros.
+-   **`src/utils/`**: Contém funções utilitárias reutilizáveis em diferentes partes do projeto.
+-   **`tests/`**: Diretório com os testes automatizados, organizados por unidade e integração.
 -   **`.env`**: Armazena chaves sensíveis, como credenciais da API do Google e Gemini.
--   **`vercel.json`**: Configuração para deploy da aplicação na Vercel.
 
 ## Funcionalidades
 
@@ -136,9 +169,16 @@ Pontos de melhoria:
 
 -   Um frontend simples para facilitar a interação com o backend, com interface intuitiva.
 
+### Cadastro com Autenticação JWT
+
+-   Sistema de cadastro e login de usuários com autenticação baseada em **JSON Web Tokens (JWT)**.
+-   Proteção de rotas sensíveis, garantindo acesso apenas a usuários autenticados.
+-   Implementação de middleware para validação de tokens e controle de sessão.
+-   Suporte a criptografia de senhas utilizando **Bcrypt** para maior segurança.
+
 ## Deploy
 
-A aplicação está hospedada na vercel: [FunkyWizard](https://funkywizard.onrender.com/)
+A aplicação está hospedada no render: [FunkyWizard](https://funkywizard.onrender.com/)
 
 ## Como Executar o Projeto Localmente
 
@@ -172,19 +212,23 @@ A aplicação está hospedada na vercel: [FunkyWizard](https://funkywizard.onren
 4. Crie na pasta raiz e configure o arquivo **.env**:
 
 ```bash
-GEMINI_API_KEY=sua_chave_da_gemini
-GOOGLE_API_KEY=sua_chave_do_google
-GOOGLE_SEARCH_ENGINE_ID=seu_id_de_busca
+AZURE_ENDPOINT_URI=seu_azure_endpoint_uri
+AZURE_API_KEY=seu_azure_api_key
+GEMINI_API_KEY=seu_gemini_api_key
+SEARCH_API_KEY=seu_search_api_key
+SEARCH_ENGINE_ID=seu_google_search_engine_api_key
+SECRET_KEY=sua_secret_key
+DATABASE_URL=url_do_seu_banco_de_dados_postgres
 ```
 
 5. Inicie o Servidor:
 
 ```bash
-npm start
+npm run dev
 ```
 
 6.  Acesse no seu navegador:
 
 ```bash
-https://funkywizard.onrender.com
+http://localhost3000
 ```

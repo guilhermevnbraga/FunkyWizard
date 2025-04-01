@@ -8,14 +8,11 @@ describe('Chat Controller', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     
-    // Mock do request
     req = {
       body: {},
       userId: 'user123',
       headers: {}
     };
-
-    // Mock do response com SSE
     res = {
       setHeader: vi.fn(),
       write: vi.fn(),
@@ -42,7 +39,7 @@ describe('Chat Controller', () => {
       const mockMessages = [
         {
           role: "system",
-          content: expect.any(String) // Verificamos que existe sem validar todo o conteúdo
+          content: expect.any(String)
         },
         {
           role: "user",

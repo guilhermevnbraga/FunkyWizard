@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createChat, findChatsByUserId, findChatById, deleteChatById } from '../../../src/models/chatModel.js';
 import prisma from '../../../src/config/db.js';
 
-// Mock do Prisma
 vi.mock('../../../src/config/db.js', () => ({
     default: {
         chat: {

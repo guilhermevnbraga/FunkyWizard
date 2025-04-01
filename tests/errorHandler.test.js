@@ -12,39 +12,27 @@ const respostaErro = { status: (num) => {
 
 describe('errorHandler', () => {
     it('deve retornar erro 400 caso o nome do erro seja ValidationError', () => {
-        // Arrange
         const err = {stack: "esse eh um stack", name: "ValidationError"};
         const res = respostaErro;
-        // Act
         const resposta = errorHandler(err, undefined, res, undefined);
-        // Assert
         expect(resposta).toStrictEqual(res.status(400).json({ success: false, message: "Dados inválidos."}));
     });
     it('deve retornar erro 401 caso o nome do erro seja UnauthorizedError', () => {
-        // Arrange
         const err = {stack: "esse eh um stack", name: "UnauthorizedError"};
         const res = respostaErro;
-        // Act
         const resposta = errorHandler(err, undefined, res, undefined);
-        // Assert
         expect(resposta).toStrictEqual(res.status(401).json({ success: false, message: "Acesso negado."}));
     });
     it('deve retornar erro 404 caso o nome do erro seja NotFoundError', () => {
-        // Arrange
         const err = {stack: "esse eh um stack", name: "NotFoundError"};
         const res = respostaErro;
-        // Act
         const resposta = errorHandler(err, undefined, res, undefined);
-        // Assert
         expect(resposta).toStrictEqual(res.status(404).json({ success: false, message: "Recurso não encontrado."}));
     })
     it('deve retornar erro 500 caso nao seja nenhum dos outros erros', () => {
-        // Arrange
         const err = {stack: "esse eh um stack", name: "OtherError"};
         const res = respostaErro;
-        // Act
         const resposta = errorHandler(err, undefined, res, undefined);
-        // Assert
         expect(resposta).toStrictEqual(res.status(500).json({ success: false, message: "Erro no servidor. Tente novamente mais tarde."}));
     })
 })

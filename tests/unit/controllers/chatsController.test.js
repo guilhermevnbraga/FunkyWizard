@@ -16,7 +16,6 @@ describe('Chats Controller', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     
-    // Mock básico do request e response
     req = {
       userId: '123',
       body: {},

@@ -3,7 +3,6 @@ import { createUser, findUserByEmail } from '../../../src/models/userModel.js';
 import prisma from '../../../src/config/db.js';
 import bcrypt from 'bcryptjs';
 
-// Mock do Prisma e bcrypt
 vi.mock('../../../src/config/db.js', () => ({
     default: {
         user: {
@@ -33,17 +32,13 @@ describe('User Model', () => {
 
     describe('createUser()', () => {
         it('should create user with hashed password', async () => {
-            // Configura os mocks
             bcrypt.hash.mockResolvedValue('hashedpassword123');
             prisma.user.create.mockResolvedValue(mockUser);
 
-            // Executa a função
             const result = await createUser('dev@example.com', 'devuser', 'plainpassword');
 
-            // Verifica o bcrypt
             expect(bcrypt.hash).toHaveBeenCalledWith('plainpassword', 10);
 
-            // Verifica o Prisma
             expect(prisma.user.create).toHaveBeenCalledWith({
                 data: {
                     email: 'dev@example.com',
@@ -52,7 +47,6 @@ describe('User Model', () => {
                 }
             });
 
-            // Verifica o retorno
             expect(result).toEqual(mockUser);
         });
 

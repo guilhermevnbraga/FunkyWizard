@@ -3,7 +3,6 @@ import { register, loginUser } from '../../../src/controllers/authController.js'
 import * as userModel from '../../../src/models/userModel.js';
 import * as authService from '../../../src/services/authService.js';
 
-// Mock dos módulos externos
 vi.mock('../../../src/models/userModel.js');
 vi.mock('../../../src/services/authService.js');
 
@@ -11,19 +10,17 @@ describe('Auth Controller', () => {
   let req, res;
 
   beforeEach(() => {
-    // Resetar mocks e criar objetos req/res simulados
     vi.clearAllMocks();
     req = { body: {} };
     res = {
-      status: vi.fn(() => res), // Permite chaining: res.status().json()
+      status: vi.fn(() => res),
       json: vi.fn(),
     };
   });
 
-  // --- TESTES PARA register() ---
   describe('register()', () => {
     it('deve retornar 400 se faltar campos obrigatórios', async () => {
-      req.body = { email: 'test@example.com' }; // Faltam username e password
+      req.body = { email: 'test@example.com' };
 
       await register(req, res);
 
@@ -39,7 +36,7 @@ describe('Auth Controller', () => {
         username: 'devuser', 
         password: 'senha123' 
       };
-      userModel.createUser.mockResolvedValueOnce(); // Mock sem erros
+      userModel.createUser.mockResolvedValueOnce();
 
       await register(req, res);
 
@@ -72,10 +69,9 @@ describe('Auth Controller', () => {
     });
   });
 
-  // --- TESTES PARA loginUser() ---
   describe('loginUser()', () => {
     it('deve retornar 400 se faltar email ou password', async () => {
-      req.body = { email: 'test@example.com' }; // Faltou password
+      req.body = { email: 'test@example.com' };
 
       await loginUser(req, res);
 
@@ -87,7 +83,7 @@ describe('Auth Controller', () => {
 
     it('deve retornar token JWT no login válido (status 200)', async () => {
       req.body = { email: 'dev@example.com', password: 'senha123' };
-      authService.login.mockResolvedValueOnce('token-gerado-123'); // Mock do service
+      authService.login.mockResolvedValueOnce('token-gerado-123');
 
       await loginUser(req, res);
 

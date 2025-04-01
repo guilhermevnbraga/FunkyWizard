@@ -6,7 +6,6 @@ import {
 } from '../../../src/models/messageModel.js';
 import prisma from '../../../src/config/db.js';
 
-// Mock do Prisma
 vi.mock('../../../src/config/db.js', () => ({
     default: {
         message: {
