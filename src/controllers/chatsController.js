@@ -37,8 +37,8 @@ export const createMessageInChat = async (req, res) => {
     const { chatId } = req.params;
     const { content, role } = req.body;
 
-    if (!content) {
-        return res.status(400).json({ message: 'Conteúdo da mensagem não pode estar vazio' });
+    if (!content || !role) {
+        return res.status(400).json({ message: 'Conteúdo e role são obrigatórios' });
     }
 
     try {

@@ -1,11 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const errorHandler = require('./src/middlewares/errorHandler');
-const authRoutes = require('./src/routes/authRoutes');
-const chatsRoutes = require('./src/routes/chatsRoutes');
-const chatRoutes = require('./src/routes/chatRoutes');
-const { PrismaClient } = require('@prisma/client');
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import errorHandler from './src/middlewares/errorHandler.js';
+import authRoutes from './src/routes/authRoutes.js';
+import chatsRoutes from './src/routes/chatsRoutes.js';
+import chatRoutes from './src/routes/chatRoutes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,3 +26,5 @@ app.use(errorHandler);
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
+
+export default app;

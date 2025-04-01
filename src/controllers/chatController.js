@@ -3,6 +3,10 @@ import { sendMessage } from '../services/chatService.js';
 export const startConversation = async (req, res) => {
     const { mensagem } = req.body;
 
+    if (!mensagem) {
+        return res.status(400).json({ error: 'O campo mensagem é obrigatório' });
+    }
+
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');

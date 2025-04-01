@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { errorHandler } from '../src/middlewares/errorHandler.js';
+import errorHandler from '../src/middlewares/errorHandler.js';
 
 const respostaErro = { status: (num) => {
     return {
