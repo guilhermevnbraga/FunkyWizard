@@ -159,7 +159,7 @@ Pontos de melhoria:
 
 ### Respostas Baseadas em IA
 
--   Responde perguntas técnicas utilizando a **Gemini AI**, com foco em explicar conceitos complexos de forma simples.
+-   Responde perguntas técnicas utilizando a **Deep-seek-R1**, com foco em explicar conceitos complexos de forma simples.
 
 ### Extração de Dados Relevantes
 
