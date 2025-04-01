@@ -26,18 +26,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         closedSidebar.style.display = 'flex';
     });
 
-    function createThinkElement(content) {
-        const thinkContainer = document.createElement('div');
-        thinkContainer.classList.add('think-container');
-
-        const thinkContent = document.createElement('p');
-        thinkContent.innerHTML = content;
-
-        thinkContainer.appendChild(thinkContent);
-
-        return thinkContainer;
-    }
-
     function addMessageToChat(role, content) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', role);
@@ -45,22 +33,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = content;
 
-        const thinkContainer = document.createElement('div');
-
-        if (role === 'assistant') {
-            const thinkTags = tempDiv.querySelectorAll('think');
-            thinkContainer.classList.add('think-container');
-
-            thinkTags.forEach(thinkTag => {
-                const thinkContent = document.createElement('p');
-                thinkContent.innerHTML = thinkTag.innerHTML;
-                thinkContainer.appendChild(thinkContent);
-            });
-        }
-
         tempDiv.innerHTML = tempDiv.innerHTML.replace(/<think>.*?<\/think>/g, '');
 
-        chatContainer.appendChild(thinkContainer);
         const formattedContent = formatMessageContent(tempDiv.innerHTML);
         messageElement.innerHTML = formattedContent;
         chatContainer.appendChild(messageElement);
@@ -120,13 +94,55 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             chatContainer.innerHTML = '';
             noMessageArticle.style.display = messages.length > 0 ? 'none' : 'block';
+
             messages.forEach(message => {
-                addMessageToChat(message.role, message.content);
+                const messageElement = addMessageToChat(message.role, '');
+
+                if (message.role === 'assistant') {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = message.content;
+
+                    const thinkTags = tempDiv.querySelectorAll('think');
+
+                    const thinkElement = document.createElement('div');
+                    thinkElement.classList.add('think-container');
+
+                    const thinkContents = document.createElement('div');
+                    thinkContents.classList.add('think-contents');
+                    thinkTags.forEach(tag => {
+                        const thinkContent = document.createElement('p');
+                        thinkContent.innerHTML = tag.innerHTML;
+                        thinkContents.appendChild(thinkContent);
+                    });
+                    thinkElement.appendChild(thinkContents);
+
+                    const toggleThinkElement = document.createElement('button');
+                    toggleThinkElement.classList.add('toggle-think');
+                    toggleThinkElement.innerHTML = 'Ocultar Pensamento';
+
+                    toggleThinkElement.addEventListener('click', () => {
+                        thinkContents.style.display = thinkContents.style.display === 'none' ? 'block' : 'none';
+                        toggleThinkElement.innerHTML = thinkContents.style.display === 'none' ? 'Mostrar Pensamento' : 'Ocultar Pensamento';
+                    });
+
+                    thinkElement.prepend(toggleThinkElement);
+
+                    thinkTags.forEach(tag => tag.remove());
+
+                    const formattedContent = formatMessageContent(tempDiv.innerHTML);
+                    messageElement.innerHTML = formattedContent;
+                    messageElement.prepend(thinkElement);
+                } else {
+                    messageElement.innerHTML = message.content;
+                }
+
+                chatContainer.scrollTop = chatContainer.scrollHeight;
             });
         } catch (error) {
             console.error('Erro ao carregar mensagens:', error);
         }
     }
+
 
     async function createNewChat() {
         currentChatId = 0;
@@ -189,14 +205,44 @@ document.addEventListener('DOMContentLoaded', async () => {
                 tempDiv.innerHTML = result;
 
                 const thinkTag = tempDiv.querySelectorAll('think');
-                const thinkElement = createThinkElement(thinkTag[0].innerHTML);
-                tempDiv.innerHTML = tempDiv.innerHTML.replace(thinkTag[0].outerHTML, thinkElement.outerHTML);
+                result = result.replace(/<tool>.*?<\/tool>/g, '');
 
-                const formattedContent = formatMessageContent(tempDiv.innerHTML);
+                if (thinkTag.length > 0) {
+                    const thinkElement = document.createElement('div');
+                    thinkElement.classList.add('think-container');
 
-                assistantMessageElement.innerHTML = formattedContent;
+                    const thinkContents = document.createElement('div');
+                    thinkContents.classList.add('think-contents');
+                    thinkTag.forEach(tag => {
+                        const thinkContent = document.createElement('p');
+                        thinkContent.innerHTML = tag.innerHTML;
+                        thinkContents.appendChild(thinkContent);
+                    });
+                    thinkElement.appendChild(thinkContents);
+
+                    const toggleThinkElement = document.createElement('button');
+                    toggleThinkElement.classList.add('toggle-think');
+                    toggleThinkElement.innerHTML = 'Ocultar Pensamento';
+
+                    toggleThinkElement.addEventListener('click', () => {
+                        thinkContents.style.display = thinkContents.style.display === 'none' ? 'block' : 'none';
+                        toggleThinkElement.innerHTML = thinkContents.style.display === 'none' ? 'Mostrar Pensamento' : 'Ocultar Pensamento';
+                    });
+
+                    thinkElement.prepend(toggleThinkElement);
+
+                    thinkTag.forEach(tag => tag.remove());
+
+                    const formattedContent = formatMessageContent(tempDiv.innerHTML);
+                    assistantMessageElement.innerHTML = formattedContent;
+
+                    assistantMessageElement.prepend(thinkElement);
+                }
+
                 chatContainer.scrollTop = chatContainer.scrollHeight;
+
             }
+            console.log(result)
 
             await fetch(`${apiUrl}/api/chats/${currentChatId}/messages`, {
                 method: 'POST',

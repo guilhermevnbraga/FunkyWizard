@@ -215,3 +215,20 @@ main {
     padding: 8px;
     border-radius: 12px;
 }
+
+#toggle-think-button {
+    display: flex;
+    align-items: center;
+}
+
+#input-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #6eb1b1;
+    padding-block: 16px;
+    width: 100%;
+    gap: 16px;
+    min-height: 9vh;
+}
