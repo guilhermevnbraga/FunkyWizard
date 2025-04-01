@@ -17,8 +17,8 @@ FunkyWizard é uma aplicação desenvolvida para facilitar a vida dos programado
 
 | Front-End | Back-End | Back-End | Designer |
 |:---------:|:--------:|:--------:|:--------:|
-| [![Guilherme Braga](https://avatars.githubusercontent.com/u/89932943?v=4)](https://github.com/guilhermevnbraga) | [![Gustavo](https://avatars.githubusercontent.com/u/110403830?v=4)](https://github.com/Gust4voSSM) | [![Danilo Barronte](https://avatars.githubusercontent.com/u/175836607?v=4)](https://github.com/danilobarrote) | [![Guilherme José](https://avatars.githubusercontent.com/u/175838250?v=4)](https://github.com/Guilhermejose749) |
-|    **Guilherme Braga**    |    **Gustavo Santiago**    |    **Danilo Barronte**    |    **Guilherme José**    |
+| [![Guilherme Braga](https://avatars.githubusercontent.com/u/89932943?v=4)](https://github.com/guilhermevnbraga) | [![Gustavo](https://avatars.githubusercontent.com/u/110403830?v=4)](https://github.com/Gust4voSSM) | [![Danilo Barrote](https://avatars.githubusercontent.com/u/175836607?v=4)](https://github.com/danilobarrote) | [![Guilherme José](https://avatars.githubusercontent.com/u/175838250?v=4)](https://github.com/Guilhermejose749) |
+|    **Guilherme Braga**    |    **Gustavo Santiago**    |    **Danilo Barrote**    |    **Guilherme José**    |
 
 ## Tecnologias Utilizadas
 
