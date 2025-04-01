@@ -89,6 +89,7 @@ A dívida técnica foi identificada pela sprint 3, realizando o pagamento nas sp
 
 ## Estratégia e implementação dos testes
 
+Tentamos usar o AAA (Arrange, Act e Assert), porém não nos prendemos tanto a isso.
 
 
 ## Pontos fortes e pontos de melhoria do projeto
