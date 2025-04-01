@@ -99,7 +99,15 @@ Exemplo de teste realizado:
 
 ## Pontos fortes e pontos de melhoria do projeto
 
+Pontos fortes:
+- Modelo gratuito com reasoning 
+- Implementação versátil e customizável, podendo ser modificado
+- Suportes de chamada de função, permitindo flexibilidade para o futuro com outras ferramentas externas
 
+Pontos de melhoria:
+- Realização de mais testes de integração automatizados
+- Validação do usuário
+- Aprimoramento do design da experiência do usuário (interface do usuário) (ex: seleção de cores)
 
 ## Estrutura do Projeto
 
