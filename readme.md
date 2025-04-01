@@ -79,6 +79,7 @@ Logo, o backlog final foi composto de:
 -   **Axios** e **JSDOM** para manipulação de dados e integração de APIs
 -   **dotenv** para gerenciamento de variáveis de ambiente
 -   **Prisma** para implementação do Banco de dados
+-   **Vitest** para testes automáticos de unidade
 
 ## Dívida técnica
 
