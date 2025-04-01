@@ -1,28 +1,22 @@
-const prisma = require('../config/db');
+import prisma from '../config/db.js';
 
-const createMessage = async (content, role, chatId) => {
+export const createMessage = async (content, role, chatId) => {
     return prisma.message.create({
         data: {
             content,
             role,
-            chatId
+            chatId,
         },
     });
 };
 
-const findMessagesByChatId = async (chatId) => {
+export const findMessagesByChatId = async (chatId) => {
     return prisma.message.findMany({
         where: { chatId },
         orderBy: { createdAt: 'asc' },
     });
 };
 
-const deleteMessagesByChatId = async (chatId) => {
+export const deleteMessagesByChatId = async (chatId) => {
     return prisma.message.deleteMany({ where: { chatId } });
-};
-
-module.exports = {
-    createMessage,
-    findMessagesByChatId,
-    deleteMessagesByChatId,
 };

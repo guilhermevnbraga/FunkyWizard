@@ -1,7 +1,7 @@
-const { createUser } = require('../models/userModel');
-const { login } = require('../services/authService');
+import { createUser } from '../models/userModel.js';
+import { login } from '../services/authService.js';
 
-const register = async (req, res) => {
+export const register = async (req, res) => {
     const { email, username, password } = req.body;
 
     if (!email || !username || !password) {
@@ -16,7 +16,7 @@ const register = async (req, res) => {
     }
 };
 
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -29,9 +29,4 @@ const loginUser = async (req, res) => {
     } catch (error) {
         res.status(401).json({ message: error.message });
     }
-};
-
-module.exports = {
-    register,
-    loginUser,
 };

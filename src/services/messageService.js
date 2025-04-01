@@ -1,19 +1,13 @@
-const { createMessage, findMessagesByChatId, deleteMessagesByChatId } = require('../models/messageModel');
+import { createMessage, findMessagesByChatId, deleteMessagesByChatId } from '../models/messageModel.js';
 
-const saveMessage = async (content, role, chatId) => {
+export const saveMessage = async (content, role, chatId) => {
     return createMessage(content, role, chatId);
 };
 
-const getMessages = async (chatId) => {
+export const getMessages = async (chatId) => {
     return findMessagesByChatId(chatId);
 };
 
-const deleteMessages = async (chatId) => {
+export const deleteMessages = async (chatId) => {
     return deleteMessagesByChatId(chatId);
-};
-
-module.exports = {
-    saveMessage,
-    getMessages,
-    deleteMessages,
 };

@@ -1,6 +1,6 @@
-const { sendMessage } = require('../services/chatService');
+import { sendMessage } from '../services/chatService.js';
 
-const startConversation = async (req, res) => {
+export const startConversation = async (req, res) => {
     const { mensagem } = req.body;
 
     res.setHeader('Content-Type', 'text/event-stream');
@@ -23,8 +23,4 @@ const startConversation = async (req, res) => {
     } finally {
         res.end();
     }
-};
-
-module.exports = {
-    startConversation,
 };

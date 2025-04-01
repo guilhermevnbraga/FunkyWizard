@@ -1,7 +1,7 @@
-const { createChat, findChatsByUserId, findChatById, deleteChatById } = require('../models/chatModel');
-const { saveMessage, getMessages, deleteMessages } = require('../services/messageService');
+import { createChat, findChatsByUserId, findChatById, deleteChatById } from '../models/chatModel.js';
+import { saveMessage, getMessages, deleteMessages } from '../services/messageService.js';
 
-const createNewChat = async (req, res) => {
+export const createNewChat = async (req, res) => {
     try {
         const { userId } = req;
         const { title } = req.body;
@@ -12,7 +12,7 @@ const createNewChat = async (req, res) => {
     }
 };
 
-const getUserChats = async (req, res) => {
+export const getUserChats = async (req, res) => {
     try {
         const { userId } = req;
         const chats = await findChatsByUserId(parseInt(userId));
@@ -22,7 +22,7 @@ const getUserChats = async (req, res) => {
     }
 };
 
-const getChatMessages = async (req, res) => {
+export const getChatMessages = async (req, res) => {
     const { chatId } = req.params;
 
     try {
@@ -33,7 +33,7 @@ const getChatMessages = async (req, res) => {
     }
 };
 
-const createMessageInChat = async (req, res) => {
+export const createMessageInChat = async (req, res) => {
     const { chatId } = req.params;
     const { content, role } = req.body;
 
@@ -49,7 +49,7 @@ const createMessageInChat = async (req, res) => {
     }
 };
 
-const deleteChatMessages = async (req, res) => {
+export const deleteChatMessages = async (req, res) => {
     const { chatId } = req.params;
 
     try {
@@ -60,7 +60,7 @@ const deleteChatMessages = async (req, res) => {
     }
 };
 
-const deleteChat = async (req, res) => {
+export const deleteChat = async (req, res) => {
     const { chatId } = req.params;
 
     try {
@@ -69,13 +69,4 @@ const deleteChat = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao excluir chat', error: error.message });
     }
-};
-
-module.exports = {
-    createNewChat,
-    getUserChats,
-    getChatMessages,
-    createMessageInChat,
-    deleteChatMessages,
-    deleteChat,
 };

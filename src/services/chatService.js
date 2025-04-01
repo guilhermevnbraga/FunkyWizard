@@ -1,17 +1,17 @@
-const { JSDOM } = require("jsdom");
-const puppeteer = require('puppeteer');
-const ModelClient = require("@azure-rest/ai-inference").default;
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { createSseStream } = require("@azure/core-sse");
-const axios = require("axios");
-const { searchGoogle, fetchPage } = require('../utils/tools');
+import { JSDOM } from "jsdom";
+import puppeteer from "puppeteer";
+import ModelClient from "@azure-rest/ai-inference";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { createSseStream } from "@azure/core-sse";
+import axios from "axios";
+import { searchGoogle, fetchPage } from "../utils/tools.js";
 
 const client = new ModelClient(
     process.env.AZURE_ENDPOINT_URI,
     new AzureKeyCredential(process.env.AZURE_API_KEY)
 );
 
-const sendMessage = async (messages, res, userId) => {
+export const sendMessage = async (messages, res, userId) => {
     const response = await client.path("/chat/completions").post({
         body: {
             messages: messages,
@@ -87,8 +87,4 @@ const processBuffer = async ({ buffer, responses }) => {
 const tools = {
     "search": searchGoogle,
     "get": (urls) => fetchPage(urls[0]).then(result => JSON.stringify(result))
-};
-
-module.exports = {
-    sendMessage,
 };

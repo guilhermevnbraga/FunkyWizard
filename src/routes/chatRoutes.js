@@ -1,9 +1,9 @@
-const express = require('express');
-const authenticate = require('../utils/authenticate');
-const { startConversation } = require('../controllers/chatController');
+import express from 'express';
+import authenticate from '../utils/authenticate.js';
+import { startConversation } from '../controllers/chatController.js';
 
 const router = express.Router();
 
 router.post('/conversa', authenticate, startConversation);
 
-module.exports = router;
+export default router;

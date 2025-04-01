@@ -1,6 +1,6 @@
-const prisma = require('../config/db');
+import prisma from '../config/db.js';
 
-const createChat = async (userId, title = 'Novo Chat') => {
+export const createChat = async (userId, title = 'Novo Chat') => {
     return prisma.chat.create({
         data: {
             userId,
@@ -9,7 +9,7 @@ const createChat = async (userId, title = 'Novo Chat') => {
     });
 };
 
-const findChatsByUserId = async (userId) => {
+export const findChatsByUserId = async (userId) => {
     return prisma.chat.findMany({
         where: { userId },
         include: { messages: true },
@@ -17,21 +17,14 @@ const findChatsByUserId = async (userId) => {
     });
 };
 
-const findChatById = async (chatId) => {
+export const findChatById = async (chatId) => {
     return prisma.chat.findUnique({
         where: { id: chatId },
     });
 };
 
-const deleteChatById = async (chatId) => {
+export const deleteChatById = async (chatId) => {
     return prisma.chat.delete({
         where: { id: chatId },
     });
-};
-
-module.exports = {
-    createChat,
-    findChatsByUserId,
-    findChatById,
-    deleteChatById,
 };

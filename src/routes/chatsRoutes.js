@@ -1,13 +1,13 @@
-const express = require('express');
-const authenticate = require('../utils/authenticate');
-const {
+import express from 'express';
+import authenticate from '../utils/authenticate.js';
+import {
     createNewChat,
     getUserChats,
     getChatMessages,
     createMessageInChat,
     deleteChatMessages,
     deleteChat,
-} = require('../controllers/chatsController');
+} from '../controllers/chatsController.js';
 
 const chatsRouter = express.Router();
 
@@ -20,4 +20,4 @@ chatsRouter.delete('/:chatId/messages', authenticate, deleteChatMessages);
 
 chatsRouter.delete('/:chatId', authenticate, deleteChat);
 
-module.exports = chatsRouter;
+export default chatsRouter;

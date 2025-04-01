@@ -1,7 +1,7 @@
-const axios = require("axios");
-const puppeteer = require('puppeteer');
+import axios from "axios";
+import puppeteer from "puppeteer";
 
-const searchGoogle = async (args) => {
+export const searchGoogle = async (args) => {
     const query = args.join(" ");
     const apiKey = process.env.SEARCH_API_KEY;
     const cx = process.env.SEARCH_ENGINE_ID;
@@ -26,7 +26,7 @@ const searchGoogle = async (args) => {
     }
 };
 
-const fetchPage = async (url) => {
+export const fetchPage = async (url) => {
     let browser;
     try {
         browser = await puppeteer.launch({ headless: true });
@@ -106,9 +106,4 @@ const fetchPage = async (url) => {
         }
         return { error: error.message };
     }
-};
-
-module.exports = {
-    searchGoogle,
-    fetchPage,
 };

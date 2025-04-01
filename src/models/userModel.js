@@ -1,7 +1,7 @@
-const prisma = require('../config/db');
-const bcrypt = require('bcryptjs');
+import prisma from '../config/db.js';
+import bcrypt from 'bcryptjs';
 
-const createUser = async (email, username, password) => {
+export const createUser = async (email, username, password) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     return prisma.user.create({
         data: {
@@ -12,11 +12,6 @@ const createUser = async (email, username, password) => {
     });
 };
 
-const findUserByEmail = async (email) => {
+export const findUserByEmail = async (email) => {
     return prisma.user.findUnique({ where: { email } });
-};
-
-module.exports = {
-    createUser,
-    findUserByEmail,
 };
