@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function addChatToSidebar(chat) {
+    function addChatToSidebar(chat, prepend = false) {
         const chatElement = document.createElement('button');
         chatElement.classList.add('chat-item');
         chatElement.textContent = chat.title;
@@ -80,7 +80,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             loadChatMessages(chat.id);
         });
 
-        chatsContainer.appendChild(chatElement);
+        if(prepend === true) chatsContainer.prepend(chatElement);
+        else chatsContainer.appendChild(chatElement);
     }
 
     async function loadChatMessages(chatId) {
@@ -169,7 +170,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 const chat = await response.json();
                 currentChatId = chat.chat.id;
-                addChatToSidebar(title);
+                addChatToSidebar({id: currentChatId, title}, prepend = true);
             } catch (error) {
                 console.error('Erro ao criar novo chat:', error);
             }
@@ -242,7 +243,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 chatContainer.scrollTop = chatContainer.scrollHeight;
 
             }
-            console.log(result)
 
             await fetch(`${apiUrl}/api/chats/${currentChatId}/messages`, {
                 method: 'POST',
