@@ -6,6 +6,7 @@ html {
 
 body {
     height: 100%;
+    max-width: 100vw;
     display: flex;
     justify-content: center;
     background-color: #6eb1b1;
