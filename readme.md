@@ -90,6 +90,8 @@ A dívida técnica foi identificada pela sprint 3, realizando o pagamento nas sp
 ## Estratégia e implementação dos testes
 
 Tentamos usar o padrão AAA (Arrange, Act e Assert), porém não nos prendemos tanto a isso.
+Exemplo de teste realizado:
+
 ![](https://media.discordapp.net/attachments/1306592437216743495/1356450870631596153/image.png?ex=67ec9cd1&is=67eb4b51&hm=b8a6aa70a468687c04b1d5f9a5a37a1d8276219190a02276d9c304b4fbcac1aa&=&format=webp&quality=lossless)
 ![](https://media.discordapp.net/attachments/1306592437216743495/1356450992509419571/image.png?ex=67ec9cee&is=67eb4b6e&hm=09a53e0bbf74ce16393ba2c00db92990a3b7f7ab56e0b0e53dd2edfbb25738a8&=&format=webp&quality=lossless&width=823&height=440)
 
