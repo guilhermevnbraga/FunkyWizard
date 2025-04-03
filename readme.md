@@ -78,6 +78,7 @@ Logo, o backlog final foi composto de:
 -   **Node.js** com **Express** para o backend
 -   **HTML**, **CSS** e **JavaScript** para o frontend
 -   **Deep-seek-R1 AI** para respostas baseadas em IA
+-   **API de pesquisa google** para pesquisas
 -   **Puppeteer** para análise de conteúdo e scraping web
 -   **Axios** e **JSDOM** para manipulação de dados e integração de APIs
 -   **dotenv** para gerenciamento de variáveis de ambiente
