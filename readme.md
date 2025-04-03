@@ -11,7 +11,7 @@
 
 ## Sobre
 
-FunkyWizard é uma aplicação desenvolvida para facilitar a vida dos programadores ao fornecer respostas rápidas e inteligentes para dúvidas técnicas, erros e consultas de documentação. Através da integração da IA **Deep-seek**, com **API da Azure** e da **API de Pesquisa do Google**, a aplicação combina pesquisa avançada com respostas personalizadas, otimizando o processo de aprendizado e solução de problemas.
+FunkyWizard é uma aplicação desenvolvida para facilitar a vida dos programadores ao fornecer respostas rápidas e inteligentes para dúvidas técnicas, erros e consultas de documentação. Através da integração da IA **Deep-seek** e com a **API da Azure**, a aplicação combina pesquisa avançada com respostas personalizadas, otimizando o processo de aprendizado e solução de problemas.
 
 ## Colaboradores
 
@@ -78,11 +78,10 @@ Logo, o backlog final foi composto de:
 -   **Node.js** com **Express** para o backend
 -   **HTML**, **CSS** e **JavaScript** para o frontend
 -   **Deep-seek-R1 AI** para respostas baseadas em IA
--   **API de Pesquisa Personalizada do Google** para resultados otimizados
 -   **Puppeteer** para análise de conteúdo e scraping web
 -   **Axios** e **JSDOM** para manipulação de dados e integração de APIs
 -   **dotenv** para gerenciamento de variáveis de ambiente
--   **Prisma** para implementação do Banco de dados
+-   **Prisma e PostgreSQL** para implementação do Banco de dados
 -   **Vitest** para testes automáticos de unidade e integração
 
 ## Dívida técnica
@@ -137,6 +136,8 @@ Pontos de melhoria:
 -   Realização de mais testes de integração automatizados
 -   Validação do usuário
 -   Aprimoramento do design da experiência do usuário (interface do usuário) (ex: seleção de cores)
+-   Organização e comunicação da equipe durante o projeto, ausência do líder prejudicou.
+
 
 ## Estrutura do Projeto
 
