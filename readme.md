@@ -80,7 +80,7 @@ Logo, o backlog final foi composto de:
 -   **Deep-seek-R1 AI** para respostas baseadas em IA
 -   **API de pesquisa google** para pesquisas
 -   **Puppeteer** para análise de conteúdo e scraping web
--   **Axios** e **JSDOM** para manipulação de dados e integração de APIs
+-   **Axios** para manipulação de dados e integração de APIs
 -   **dotenv** para gerenciamento de variáveis de ambiente
 -   **Prisma e PostgreSQL** para implementação do Banco de dados
 -   **Vitest** para testes automáticos de unidade e integração
