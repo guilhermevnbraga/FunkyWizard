@@ -92,6 +92,7 @@ A dívida técnica foi identificada pela sprint 3, realizando o pagamento nas sp
 -   Desorganização e má estruturação do código -> o pagamento foi feito pela refatoração e melhora em sua legibilidade.
 -   Não conseguia reiniciar a conversa na interface do usuário -> pagamento com mudança na lógica do servidor + implementações no front-end.
 -   Poluição do código fonte devido às instruções grandes -> pagamento movendo-as para outro arquivo, a fim de facilitar sua edição e "limpar" o código.
+-   O Modelo de linguagem antigo não era poderoso o suficiente para usar todas as funcionalidades disponíveis de maneira eficiente e responsiva -> pagamento trocando o modelo Gemini pelo DeepSeek-R1 
 
 ## Estratégia e Implementação dos Testes
 
