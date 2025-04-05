@@ -26,16 +26,16 @@ O projeto consiste em um assistente de IA (chatbot), que responde perguntas e fo
 
 O backlog inicial na sprint 1 continha, em ordem de maior prioridade para menor prioridade:
 
--   Chatbot
--   Capacidade de pesquisa
+-   Chatbot (Altíssima)
+-   Capacidade de pesquisa (Alta)
 -   Busca em profundidade (capacidade de entrar em links)
 -   Citação de fontes usadas
--   Exibição de imagens encontradas na pesquisa
+-   Exibição de imagens encontradas na pesquisa (Média)
 -   Capacidade de executar código interativamente
 -   Múltiplos chats
 -   Capacidade de planejamento
 -   Suporte a markdown
--   Suporte a exibição de código
+-   Suporte a exibição de código (Baixa)
 -   Assistente reconhece imagens
 -   Log de navegação
 
@@ -71,7 +71,8 @@ Logo, o backlog final foi composto de:
 -   Múltiplos chats
 -   Capacidade de planejamento (Chain of thought)
 -   Suporte a markdown
--   Banco de dados + Autenticação e autorização (Bcrypt)
+-   Banco de dados
+-   Autenticação e autorização (Bcrypt)
 
 ## Tecnologias Utilizadas
 
